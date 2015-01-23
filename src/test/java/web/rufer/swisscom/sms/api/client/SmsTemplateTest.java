@@ -15,6 +15,17 @@
  */
 package web.rufer.swisscom.sms.api.client;
 
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+@RunWith(MockitoJUnitRunner.class)
 public class SmsTemplateTest {
 
+    SmsTemplate smsTemplate;
+
+    @Before
+    public void init() {
+        smsTemplate = new SmsTemplate();
+    }
 }

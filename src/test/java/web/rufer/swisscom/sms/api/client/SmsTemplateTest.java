@@ -16,6 +16,7 @@
 package web.rufer.swisscom.sms.api.client;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -27,5 +28,10 @@ public class SmsTemplateTest {
     @Before
     public void init() {
         smsTemplate = new SmsTemplate();
+    }
+
+    @Test
+    public void dummyTest() {
+        // test skeleton
     }
 }

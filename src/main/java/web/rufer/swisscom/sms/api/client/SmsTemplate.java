@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
 
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,7 +51,11 @@ public class SmsTemplate {
     public void sendSms(String message, String... receivers) {
         OutboundSMSMessageRequest requestBody = new OutboundSMSMessageRequest();
         requestBody.setSenderAddress(senderNumber);
-        //requestBody.setAddress();
+        ArrayList<String> receiverList = new ArrayList<>();
+        for (String receiver : receivers) {
+            receiverList.add(receiver);
+        }
+        requestBody.setAddress(receiverList);
         requestBody.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
         URI uri = URI.create(String.format(API_URI, senderNumber.substring(1)));
         restTemplate.postForObject(uri, new HttpEntity(requestBody, createHeaders()), HttpEntity.class);

@@ -18,20 +18,45 @@ package web.rufer.swisscom.sms.api.client;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.client.RestTemplate;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SmsTemplateTest {
 
+    private final String apiKey = "12345";
+    private final String senderNumber = "+41791234567";
+    private final String receiverNumber = "+41791234568";
+
     SmsTemplate smsTemplate;
+
+    @Mock
+    RestTemplate restTemplate;
 
     @Before
     public void init() {
-        smsTemplate = new SmsTemplate();
+        smsTemplate = new SmsTemplate(apiKey, senderNumber);
+        smsTemplate.restTemplate = restTemplate;
     }
 
     @Test
-    public void dummyTest() {
-        // test skeleton
+    public void sendSmsTest() {
+        smsTemplate.sendSms("test", receiverNumber);
+        verify(restTemplate, times(1)).postForObject(anyString(), anyObject(), HttpEntity.class);
+    }
+
+    @Test
+    public void createHeadersTest() {
+        HttpHeaders headers = smsTemplate.createHeaders();
+        assertEquals(apiKey ,headers.get("client_id"));
     }
 }

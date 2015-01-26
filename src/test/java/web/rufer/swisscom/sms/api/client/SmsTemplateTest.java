@@ -55,24 +55,24 @@ public class SmsTemplateTest {
     }
 
     @Test
-    public void sendSmsTest() {
+    public void sendSmsCallsRestTemplatePostForObjectMethodOnce() {
         smsTemplate.sendSms(SAMPLE_MESSAGE, RECEIVER_NUMBER);
         verify(restTemplate, times(1)).postForObject(any(URI.class), anyObject(), any(Class.class));
     }
 
     @Test
-    public void createHeadersTest() {
+    public void createHeadersReturnsHeadersWithAPIKey() {
         HttpHeaders headers = smsTemplate.createHeaders();
         assertEquals(API_KEY, headers.get("client_id").get(0));
     }
 
     @Test
-    public void createRequestUri() {
+    public void createRequestUriReturnsURIWithSenderNumber() {
         assertEquals(URI.create(EXPECTED_REQUEST_URI_AS_STRING), smsTemplate.createRequestUri());
     }
 
     @Test
-    public void createOutboundSMSMessageRequest() {
+    public void createOutboundSMSMessageRequestReturnsFilledOutRequestObject() {
         OutboundSMSMessageRequest outboundSMSMessageRequest = smsTemplate.createOutboundSMSMessageRequest(SAMPLE_MESSAGE, new String[]{RECEIVER_NUMBER});
         assertEquals(EXPECTED_RECEIVER_NUMBER, outboundSMSMessageRequest.getAddress().get(0));
         assertEquals(EXPECTED_SENDER_NUMBER, outboundSMSMessageRequest.getSenderAddress());

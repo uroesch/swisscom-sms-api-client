@@ -22,10 +22,9 @@ import org.springframework.web.client.RestTemplate;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
 
-import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class SmsTemplate {
 
@@ -48,11 +47,17 @@ public class SmsTemplate {
         restTemplate = new RestTemplate();
     }
 
-    public void sendSms(String message, String... receivers) {
+    /**
+     * Send a sms to one or more receivers
+     *
+     * @param message the message text
+     * @param receiverNumbers the numbers of the receivers (i.e. +41791234567)
+     */
+    public void sendSms(String message, String... receiverNumbers) {
         OutboundSMSMessageRequest requestBody = new OutboundSMSMessageRequest();
         requestBody.setSenderAddress(senderNumber);
         ArrayList<String> receiverList = new ArrayList();
-        for (String receiver : receivers) {
+        for (String receiver : receiverNumbers) {
             receiverList.add(receiver);
         }
         requestBody.setAddress(receiverList);

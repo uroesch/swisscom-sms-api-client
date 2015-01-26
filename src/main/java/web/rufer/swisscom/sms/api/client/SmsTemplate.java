@@ -64,7 +64,7 @@ public class SmsTemplate {
         restTemplate.postForObject(createRequestUri(), new HttpEntity(sendSMSRequest, createHeaders()), HttpEntity.class);
     }
 
-    private OutboundSMSMessageRequest createOutboundSMSMessageRequest(String message, String[] receiverNumbers) {
+    protected OutboundSMSMessageRequest createOutboundSMSMessageRequest(String message, String[] receiverNumbers) {
         OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
         outboundSMSMessageRequest.setSenderAddress(String.join(DELIMITER, NUMBER_TEMPLATE, senderNumber));
         List<String> receivers = new LinkedList();

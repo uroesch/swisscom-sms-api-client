@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
+import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 
 import java.net.URI;
 
@@ -35,8 +36,11 @@ import static org.mockito.Mockito.verify;
 public class SmsTemplateTest {
 
     private final String API_KEY = "12345";
+    private final String SAMPLE_MESSAGE = "test";
     private final String SENDER_NUMBER = "+41791234567";
     private final String RECEIVER_NUMBER = "+41791234568";
+    private final String EXPECTED_SENDER_NUMBER = "tel:+41791234567";
+    private final String EXPECTED_RECEIVER_NUMBER = "tel:+41791234568";
     private final String EXPECTED_REQUEST_URI_AS_STRING = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B41791234567/requests";
 
     SmsTemplate smsTemplate;
@@ -52,7 +56,7 @@ public class SmsTemplateTest {
 
     @Test
     public void sendSmsTest() {
-        smsTemplate.sendSms("test", RECEIVER_NUMBER);
+        smsTemplate.sendSms(SAMPLE_MESSAGE, RECEIVER_NUMBER);
         verify(restTemplate, times(1)).postForObject(any(URI.class), anyObject(), any(Class.class));
     }
 
@@ -65,5 +69,13 @@ public class SmsTemplateTest {
     @Test
     public void createRequestUri() {
         assertEquals(URI.create(EXPECTED_REQUEST_URI_AS_STRING), smsTemplate.createRequestUri());
+    }
+
+    @Test
+    public void createOutboundSMSMessageRequest() {
+        OutboundSMSMessageRequest outboundSMSMessageRequest = smsTemplate.createOutboundSMSMessageRequest(SAMPLE_MESSAGE, new String[]{RECEIVER_NUMBER});
+        assertEquals(EXPECTED_RECEIVER_NUMBER, outboundSMSMessageRequest.getAddress().get(0));
+        assertEquals(EXPECTED_SENDER_NUMBER, outboundSMSMessageRequest.getSenderAddress());
+        assertEquals(SAMPLE_MESSAGE, outboundSMSMessageRequest.getOutboundSMSTextMessage().getMessage());
     }
 }

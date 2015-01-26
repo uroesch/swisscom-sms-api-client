@@ -15,21 +15,21 @@
  */
 package web.rufer.swisscom.sms.api.domain;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class OutboundSMSMessageRequest {
 
-    private ArrayList<String> address;
+    private List<String> address;
 
     private String senderAddress;
 
     private OutboundSMSTextMessage outboundSMSTextMessage;
 
-    public ArrayList<String> getAddress() {
+    public List<String> getAddress() {
         return address;
     }
 
-    public void setAddress(ArrayList<String> address) {
+    public void setAddress(List<String> address) {
         this.address = address;
     }
 

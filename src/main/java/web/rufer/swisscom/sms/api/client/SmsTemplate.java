@@ -24,6 +24,8 @@ import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class SmsTemplate {
@@ -57,11 +59,8 @@ public class SmsTemplate {
     public void sendSms(String message, String... receiverNumbers) {
         OutboundSMSMessageRequest requestBody = new OutboundSMSMessageRequest();
         requestBody.setSenderAddress(senderNumber);
-        ArrayList<String> receiverList = new ArrayList();
-        for (String receiver : receiverNumbers) {
-            receiverList.add(receiver);
-        }
-        requestBody.setAddress(receiverList);
+        List<String> receivers = Arrays.asList(receiverNumbers);
+        requestBody.setAddress(receivers);
         requestBody.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
         restTemplate.postForObject(createRequestUri(), new HttpEntity(requestBody, createHeaders()), HttpEntity.class);
     }

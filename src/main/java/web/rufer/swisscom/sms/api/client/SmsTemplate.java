@@ -21,11 +21,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
+import web.rufer.swisscom.sms.api.domain.SendSMSRequest;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 public class SmsTemplate {
@@ -57,12 +56,13 @@ public class SmsTemplate {
      * @param receiverNumbers the numbers of the receivers (i.e. +41791234567)
      */
     public void sendSms(String message, String... receiverNumbers) {
-        OutboundSMSMessageRequest requestBody = new OutboundSMSMessageRequest();
-        requestBody.setSenderAddress(senderNumber);
-        List<String> receivers = Arrays.asList(receiverNumbers);
-        requestBody.setAddress(receivers);
-        requestBody.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
-        restTemplate.postForObject(createRequestUri(), new HttpEntity(requestBody, createHeaders()), HttpEntity.class);
+        SendSMSRequest sendSMSRequest = new SendSMSRequest();
+        OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
+        outboundSMSMessageRequest.setSenderAddress(senderNumber);
+        outboundSMSMessageRequest.setAddress(Arrays.asList(receiverNumbers));
+        outboundSMSMessageRequest.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
+        sendSMSRequest.setOutboundSMSMessageRequest(outboundSMSMessageRequest);
+        restTemplate.postForObject(createRequestUri(), new HttpEntity(sendSMSRequest, createHeaders()), HttpEntity.class);
     }
 
     protected HttpHeaders createHeaders() {

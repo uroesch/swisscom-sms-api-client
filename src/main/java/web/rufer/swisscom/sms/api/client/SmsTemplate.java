@@ -56,11 +56,12 @@ public class SmsTemplate {
      * @param receiverNumbers the numbers of the receivers (i.e. +41791234567)
      */
     public void sendSms(String message, String... receiverNumbers) {
-        SendSMSRequest sendSMSRequest = new SendSMSRequest();
         OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
         outboundSMSMessageRequest.setSenderAddress(senderNumber);
         outboundSMSMessageRequest.setAddress(Arrays.asList(receiverNumbers));
         outboundSMSMessageRequest.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
+
+        SendSMSRequest sendSMSRequest = new SendSMSRequest();
         sendSMSRequest.setOutboundSMSMessageRequest(outboundSMSMessageRequest);
         restTemplate.postForObject(createRequestUri(), new HttpEntity(sendSMSRequest, createHeaders()), HttpEntity.class);
     }

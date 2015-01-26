@@ -63,8 +63,6 @@ public class SmsTemplate {
         }
         requestBody.setAddress(receiverList);
         requestBody.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
-        // TODO optimize the following string concatenation
-        URI uri = URI.create(API_URI_PREFIX + senderNumber.substring(1) + "/requests");
         restTemplate.postForObject(createRequestUri(), new HttpEntity(requestBody, createHeaders()), HttpEntity.class);
     }
 

@@ -68,6 +68,7 @@ public class SmsTemplate {
     protected HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         headers.set(CLIENT_ID, apiKey);
         return headers;
     }

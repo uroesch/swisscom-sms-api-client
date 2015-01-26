@@ -34,9 +34,10 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class SmsTemplateTest {
 
-    private final String apiKey = "12345";
-    private final String senderNumber = "+41791234567";
-    private final String receiverNumber = "+41791234568";
+    private final String API_KEY = "12345";
+    private final String SENDER_NUMBER = "+41791234567";
+    private final String RECEIVER_NUMBER = "+41791234568";
+    private final String EXPECTED_REQUEST_URI_AS_STRING = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B41791234567/requests";
 
     SmsTemplate smsTemplate;
 
@@ -45,19 +46,24 @@ public class SmsTemplateTest {
 
     @Before
     public void init() {
-        smsTemplate = new SmsTemplate(apiKey, senderNumber);
+        smsTemplate = new SmsTemplate(API_KEY, SENDER_NUMBER);
         smsTemplate.restTemplate = restTemplate;
     }
 
     @Test
     public void sendSmsTest() {
-        smsTemplate.sendSms("test", receiverNumber);
+        smsTemplate.sendSms("test", RECEIVER_NUMBER);
         verify(restTemplate, times(1)).postForObject(any(URI.class), anyObject(), any(Class.class));
     }
 
     @Test
     public void createHeadersTest() {
         HttpHeaders headers = smsTemplate.createHeaders();
-        assertEquals(apiKey , headers.get("client_id").get(0));
+        assertEquals(API_KEY, headers.get("client_id").get(0));
+    }
+
+    @Test
+    public void createRequestUri() {
+        assertEquals(URI.create(EXPECTED_REQUEST_URI_AS_STRING), smsTemplate.createRequestUri());
     }
 }

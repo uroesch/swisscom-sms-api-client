@@ -29,7 +29,8 @@ import java.util.ArrayList;
 public class SmsTemplate {
 
     private static final String CLIENT_ID = "client_id";
-    public static final String API_URI_PREFIX = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B";
+    private static final String API_URI_PREFIX = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B";
+    private static final String API_URI_SUFFIX = "/requests";
 
     private String apiKey;
     private String senderNumber;
@@ -64,7 +65,7 @@ public class SmsTemplate {
         requestBody.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
         // TODO optimize the following string concatenation
         URI uri = URI.create(API_URI_PREFIX + senderNumber.substring(1) + "/requests");
-        restTemplate.postForObject(uri, new HttpEntity(requestBody, createHeaders()), HttpEntity.class);
+        restTemplate.postForObject(createRequestUri(), new HttpEntity(requestBody, createHeaders()), HttpEntity.class);
     }
 
     protected HttpHeaders createHeaders() {
@@ -72,5 +73,13 @@ public class SmsTemplate {
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         headers.set(CLIENT_ID, apiKey);
         return headers;
+    }
+
+    public URI createRequestUri() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(API_URI_PREFIX);
+        sb.append(senderNumber.substring(1));
+        sb.append(API_URI_SUFFIX);
+        return URI.create(sb.toString());
     }
 }

@@ -24,7 +24,8 @@ import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
 import web.rufer.swisscom.sms.api.domain.SendSMSRequest;
 
 import java.net.URI;
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class SmsTemplate {
@@ -32,6 +33,8 @@ public class SmsTemplate {
     private static final String CLIENT_ID = "client_id";
     private static final String API_URI_PREFIX = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B";
     private static final String API_URI_SUFFIX = "/requests";
+    private static final String NUMBER_TEMPLATE = "tel:";
+    public static final String DELIMITER = "";
 
     private String apiKey;
     private String senderNumber;
@@ -56,14 +59,25 @@ public class SmsTemplate {
      * @param receiverNumbers the numbers of the receivers (i.e. +41791234567)
      */
     public void sendSms(String message, String... receiverNumbers) {
-        OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
-        outboundSMSMessageRequest.setSenderAddress(senderNumber);
-        outboundSMSMessageRequest.setAddress(Arrays.asList(receiverNumbers));
-        outboundSMSMessageRequest.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
-
         SendSMSRequest sendSMSRequest = new SendSMSRequest();
-        sendSMSRequest.setOutboundSMSMessageRequest(outboundSMSMessageRequest);
+        sendSMSRequest.setOutboundSMSMessageRequest(createOutboundSMSMessageRequest(message, receiverNumbers));
         restTemplate.postForObject(createRequestUri(), new HttpEntity(sendSMSRequest, createHeaders()), HttpEntity.class);
+    }
+
+    private OutboundSMSMessageRequest createOutboundSMSMessageRequest(String message, String[] receiverNumbers) {
+        OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
+        outboundSMSMessageRequest.setSenderAddress(String.join(DELIMITER, NUMBER_TEMPLATE, senderNumber));
+        List<String> receivers = new LinkedList();
+        for (String receiverNumber : receiverNumbers) {
+            receivers.add(String.join(DELIMITER, NUMBER_TEMPLATE, receiverNumber));
+        }
+        outboundSMSMessageRequest.setAddress(receivers);
+        outboundSMSMessageRequest.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
+        return outboundSMSMessageRequest;
+    }
+
+    public URI createRequestUri() {
+        return URI.create(String.join(DELIMITER, API_URI_PREFIX, senderNumber.substring(1), API_URI_SUFFIX));
     }
 
     protected HttpHeaders createHeaders() {
@@ -72,13 +86,5 @@ public class SmsTemplate {
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         headers.set(CLIENT_ID, apiKey);
         return headers;
-    }
-
-    public URI createRequestUri() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(API_URI_PREFIX);
-        sb.append(senderNumber.substring(1));
-        sb.append(API_URI_SUFFIX);
-        return URI.create(sb.toString());
     }
 }

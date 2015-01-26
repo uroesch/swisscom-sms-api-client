@@ -5,9 +5,4 @@ The SMS-API of Swisscom is published and documented [here](https://developer.swi
 
 ## How to use
 
-To used the API you have to register at the [Swisscom developer portal](https://developer.swisscom.com/) and create an API-Key.
-
-
-## Used libraries
-
-*
+To use the API with this client you have to register at the [Swisscom developer portal](https://developer.swisscom.com/) and create an API-Key.

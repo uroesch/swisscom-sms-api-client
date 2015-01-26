@@ -30,7 +30,7 @@ import java.util.Arrays;
 public class SmsTemplate {
 
     private static final String CLIENT_ID = "client_id";
-    public static final String API_URI = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B{0}/requests";
+    public static final String API_URI_PREFIX = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B";
 
     private String apiKey;
     private String senderNumber;
@@ -51,13 +51,14 @@ public class SmsTemplate {
     public void sendSms(String message, String... receivers) {
         OutboundSMSMessageRequest requestBody = new OutboundSMSMessageRequest();
         requestBody.setSenderAddress(senderNumber);
-        ArrayList<String> receiverList = new ArrayList<>();
+        ArrayList<String> receiverList = new ArrayList();
         for (String receiver : receivers) {
             receiverList.add(receiver);
         }
         requestBody.setAddress(receiverList);
         requestBody.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
-        URI uri = URI.create(String.format(API_URI, senderNumber.substring(1)));
+        // TODO optimize the following string concatenation
+        URI uri = URI.create(API_URI_PREFIX + senderNumber.substring(1) + "/requests");
         restTemplate.postForObject(uri, new HttpEntity(requestBody, createHeaders()), HttpEntity.class);
     }
 

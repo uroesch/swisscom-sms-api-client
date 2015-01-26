@@ -20,13 +20,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -51,12 +52,12 @@ public class SmsTemplateTest {
     @Test
     public void sendSmsTest() {
         smsTemplate.sendSms("test", receiverNumber);
-        verify(restTemplate, times(1)).postForObject(anyString(), anyObject(), HttpEntity.class);
+        verify(restTemplate, times(1)).postForObject(any(URI.class), anyObject(), any(Class.class));
     }
 
     @Test
     public void createHeadersTest() {
         HttpHeaders headers = smsTemplate.createHeaders();
-        assertEquals(apiKey ,headers.get("client_id"));
+        assertEquals(apiKey , headers.get("client_id").get(0));
     }
 }

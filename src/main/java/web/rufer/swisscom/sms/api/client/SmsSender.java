@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
 import web.rufer.swisscom.sms.api.domain.SendSMSRequest;
+import web.rufer.swisscom.sms.api.factory.HeaderFactory;
 
 import java.net.URI;
 import java.util.LinkedList;
@@ -30,7 +31,6 @@ import java.util.List;
 
 public class SmsSender {
 
-    private static final String CLIENT_ID = "client_id";
     private static final String API_URI_PREFIX = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B";
     private static final String API_URI_SUFFIX = "/requests";
     private static final String NUMBER_TEMPLATE = "tel:";
@@ -61,10 +61,9 @@ public class SmsSender {
     public void sendSms(String message, String... receiverNumbers) {
         SendSMSRequest sendSMSRequest = new SendSMSRequest();
         sendSMSRequest.setOutboundSMSMessageRequest(createOutboundSMSMessageRequest(message, receiverNumbers));
-        restTemplate.postForObject(createRequestUri(), new HttpEntity(sendSMSRequest, createHeaders()), HttpEntity.class);
+        restTemplate.postForObject(createRequestUri(), new HttpEntity(sendSMSRequest, HeaderFactory.createHeaders(apiKey)), HttpEntity.class);
     }
 
-    // TODO move to another class (OutboundSMSMessageRequest)
     protected OutboundSMSMessageRequest createOutboundSMSMessageRequest(String message, String[] receiverNumbers) {
         OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
         outboundSMSMessageRequest.setSenderAddress(String.join(DELIMITER, NUMBER_TEMPLATE, senderNumber));
@@ -79,14 +78,5 @@ public class SmsSender {
 
     public URI createRequestUri() {
         return URI.create(String.join(DELIMITER, API_URI_PREFIX, senderNumber.substring(1), API_URI_SUFFIX));
-    }
-
-    // TODO move to another class (HeaderFactory)
-    protected HttpHeaders createHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        headers.set(CLIENT_ID, apiKey);
-        return headers;
     }
 }

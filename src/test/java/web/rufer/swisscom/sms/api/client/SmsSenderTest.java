@@ -61,12 +61,6 @@ public class SmsSenderTest {
     }
 
     @Test
-    public void createHeadersReturnsHeadersWithAPIKey() {
-        HttpHeaders headers = smsSender.createHeaders();
-        assertEquals(API_KEY, headers.get("client_id").get(0));
-    }
-
-    @Test
     public void createRequestUriReturnsURIWithSenderNumber() {
         assertEquals(URI.create(EXPECTED_REQUEST_URI_AS_STRING), smsSender.createRequestUri());
     }

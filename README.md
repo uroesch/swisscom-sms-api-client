@@ -1,7 +1,7 @@
 # Swisscom SMS-API-Client [![Build Status](https://travis-ci.org/rufer7/swisscom-sms-api-client.svg)](https://travis-ci.org/rufer7/swisscom-sms-api-client)
 
 A Java library for easy use of the swisscom SMS API in Java.
-The SMS-API of Swisscom is published and documented [here](https://developer.swisscom.com/).
+The SMS-API of Swisscom is published and documented at the [Swisscom Developer Portal](https://developer.swisscom.com/).
 
 ## How to use
 

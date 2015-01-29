@@ -28,13 +28,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class SmsTemplate {
+public class SmsSender {
 
     private static final String CLIENT_ID = "client_id";
     private static final String API_URI_PREFIX = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B";
     private static final String API_URI_SUFFIX = "/requests";
     private static final String NUMBER_TEMPLATE = "tel:";
-    public static final String DELIMITER = "";
+    private static final String DELIMITER = "";
 
     private String apiKey;
     private String senderNumber;
@@ -46,7 +46,7 @@ public class SmsTemplate {
      * @param apiKey the API key from developer.swisscom.com
      * @param senderNumber the number of the sender (i.e. +41791234567)
      */
-    public SmsTemplate(String apiKey, String senderNumber) {
+    public SmsSender(String apiKey, String senderNumber) {
         this.apiKey = apiKey;
         this.senderNumber = senderNumber;
         restTemplate = new RestTemplate();

@@ -33,7 +33,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SmsTemplateTest {
+public class SmsSenderTest {
 
     private final String API_KEY = "12345";
     private final String SAMPLE_MESSAGE = "test";
@@ -43,37 +43,37 @@ public class SmsTemplateTest {
     private final String EXPECTED_RECEIVER_NUMBER = "tel:+41791234568";
     private final String EXPECTED_REQUEST_URI_AS_STRING = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B41791234567/requests";
 
-    SmsTemplate smsTemplate;
+    SmsSender smsSender;
 
     @Mock
     RestTemplate restTemplate;
 
     @Before
     public void init() {
-        smsTemplate = new SmsTemplate(API_KEY, SENDER_NUMBER);
-        smsTemplate.restTemplate = restTemplate;
+        smsSender = new SmsSender(API_KEY, SENDER_NUMBER);
+        smsSender.restTemplate = restTemplate;
     }
 
     @Test
     public void sendSmsCallsRestTemplatePostForObjectMethodOnce() {
-        smsTemplate.sendSms(SAMPLE_MESSAGE, RECEIVER_NUMBER);
+        smsSender.sendSms(SAMPLE_MESSAGE, RECEIVER_NUMBER);
         verify(restTemplate, times(1)).postForObject(any(URI.class), anyObject(), any(Class.class));
     }
 
     @Test
     public void createHeadersReturnsHeadersWithAPIKey() {
-        HttpHeaders headers = smsTemplate.createHeaders();
+        HttpHeaders headers = smsSender.createHeaders();
         assertEquals(API_KEY, headers.get("client_id").get(0));
     }
 
     @Test
     public void createRequestUriReturnsURIWithSenderNumber() {
-        assertEquals(URI.create(EXPECTED_REQUEST_URI_AS_STRING), smsTemplate.createRequestUri());
+        assertEquals(URI.create(EXPECTED_REQUEST_URI_AS_STRING), smsSender.createRequestUri());
     }
 
     @Test
     public void createOutboundSMSMessageRequestReturnsFilledOutRequestObject() {
-        OutboundSMSMessageRequest outboundSMSMessageRequest = smsTemplate.createOutboundSMSMessageRequest(SAMPLE_MESSAGE, new String[]{RECEIVER_NUMBER});
+        OutboundSMSMessageRequest outboundSMSMessageRequest = smsSender.createOutboundSMSMessageRequest(SAMPLE_MESSAGE, new String[]{RECEIVER_NUMBER});
         assertEquals(EXPECTED_RECEIVER_NUMBER, outboundSMSMessageRequest.getAddress().get(0));
         assertEquals(EXPECTED_SENDER_NUMBER, outboundSMSMessageRequest.getSenderAddress());
         assertEquals(SAMPLE_MESSAGE, outboundSMSMessageRequest.getOutboundSMSTextMessage().getMessage());

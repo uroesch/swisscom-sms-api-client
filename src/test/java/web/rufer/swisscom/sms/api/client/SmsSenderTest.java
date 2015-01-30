@@ -25,7 +25,9 @@ import org.springframework.web.client.RestTemplate;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 
 import java.net.URI;
+import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
@@ -71,5 +73,13 @@ public class SmsSenderTest {
         assertEquals(EXPECTED_RECEIVER_NUMBER, outboundSMSMessageRequest.getAddress().get(0));
         assertEquals(EXPECTED_SENDER_NUMBER, outboundSMSMessageRequest.getSenderAddress());
         assertEquals(SAMPLE_MESSAGE, outboundSMSMessageRequest.getOutboundSMSTextMessage().getMessage());
+    }
+
+    @Test
+    public void prefixAndAddReceiverNumbersToListReturnsListContainingNumbers() {
+        String[] receiverArray = {RECEIVER_NUMBER};
+        List receivers = smsSender.prefixAndAddReceiverNumbersToList(receiverArray);
+        String[] expectedResult = {EXPECTED_RECEIVER_NUMBER};
+        assertArrayEquals(expectedResult, receivers.toArray());
     }
 }

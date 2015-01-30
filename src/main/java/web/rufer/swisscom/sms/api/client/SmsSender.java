@@ -16,8 +16,6 @@
 package web.rufer.swisscom.sms.api.client;
 
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
@@ -33,7 +31,7 @@ public class SmsSender {
 
     private static final String API_URI_PREFIX = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B";
     private static final String API_URI_SUFFIX = "/requests";
-    private static final String NUMBER_TEMPLATE = "tel:";
+    private static final String NUMBER_PREFIX = "tel:";
     private static final String DELIMITER = "";
 
     private String apiKey;
@@ -66,17 +64,21 @@ public class SmsSender {
 
     protected OutboundSMSMessageRequest createOutboundSMSMessageRequest(String message, String[] receiverNumbers) {
         OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
-        outboundSMSMessageRequest.setSenderAddress(String.join(DELIMITER, NUMBER_TEMPLATE, senderNumber));
-        List<String> receivers = new LinkedList();
-        for (String receiverNumber : receiverNumbers) {
-            receivers.add(String.join(DELIMITER, NUMBER_TEMPLATE, receiverNumber));
-        }
-        outboundSMSMessageRequest.setAddress(receivers);
+        outboundSMSMessageRequest.setSenderAddress(String.join(DELIMITER, NUMBER_PREFIX, senderNumber));
+        outboundSMSMessageRequest.setAddress(prefixAndAddReceiverNumbersToList(receiverNumbers));
         outboundSMSMessageRequest.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
         return outboundSMSMessageRequest;
     }
 
-    public URI createRequestUri() {
+    protected List<String> prefixAndAddReceiverNumbersToList(String[] receiverNumbers) {
+        List<String> receivers = new LinkedList();
+        for (String receiverNumber : receiverNumbers) {
+            receivers.add(String.join(DELIMITER, NUMBER_PREFIX, receiverNumber));
+        }
+        return receivers;
+    }
+
+    protected URI createRequestUri() {
         return URI.create(String.join(DELIMITER, API_URI_PREFIX, senderNumber.substring(1), API_URI_SUFFIX));
     }
 }

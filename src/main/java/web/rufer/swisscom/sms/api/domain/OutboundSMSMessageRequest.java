@@ -17,13 +17,20 @@ package web.rufer.swisscom.sms.api.domain;
 
 import java.util.List;
 
-public class OutboundSMSMessageWrapper {
+/**
+ * The SMS Request object. Description for all the properties can be found under the following link: {@linktourl https://developer.swisscom.com/documentation/api/products/SMS%20Messaging}
+ */
+public class OutboundSMSMessageRequest {
 
     private List<String> address;
 
     private String senderAddress;
 
     private OutboundSMSTextMessage outboundSMSTextMessage;
+
+    private String clientCorrelator;
+
+    private String senderName;
 
     public List<String> getAddress() {
         return address;
@@ -47,5 +54,21 @@ public class OutboundSMSMessageWrapper {
 
     public void setOutboundSMSTextMessage(OutboundSMSTextMessage outboundSMSTextMessage) {
         this.outboundSMSTextMessage = outboundSMSTextMessage;
+    }
+
+    public String getClientCorrelator() {
+        return clientCorrelator;
+    }
+
+    public void setClientCorrelator(String clientCorrelator) {
+        this.clientCorrelator = clientCorrelator;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 }

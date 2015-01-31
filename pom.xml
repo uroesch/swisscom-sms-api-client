@@ -2,11 +2,39 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <groupId>web.rufer.swisscom.sms</groupId>
     <artifactId>api-client</artifactId>
     <version>0.1-SNAPSHOT</version>
+
+    <name>Swisscom SMS-API-Client</name>
+    <description>A Java library for easy use of the Swisscom SMS API in Java</description>
+    <url>https://github.com/rufer7/swisscom-sms-api-client</url>
+    <inceptionYear>2015</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Marc Rufer</name>
+            <email>m.rufer@gmx.ch</email>
+            <organization>github</organization>
+            <organizationUrl>https://github.com/rufer7</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/rufer7/swisscom-sms-api-client</connection>
+        <developerConnection>scm:git:https://github.com/rufer7/swisscom-sms-api-client</developerConnection>
+        <url>https://github.com/rufer7/swisscom-sms-api-client</url>
+    </scm>
 
     <properties>
         <!-- use UTF-8 for everything -->

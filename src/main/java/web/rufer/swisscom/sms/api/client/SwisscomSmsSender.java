@@ -21,6 +21,7 @@ import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
 import web.rufer.swisscom.sms.api.domain.SendSMSRequest;
 import web.rufer.swisscom.sms.api.factory.HeaderFactory;
+import web.rufer.swisscom.sms.api.validation.PhoneNumberValidator;
 
 import java.net.URI;
 import java.util.LinkedList;
@@ -46,6 +47,7 @@ public class SwisscomSmsSender {
      * @param senderNumber the number of the sender (i.e. +41791234567)
      */
     public SwisscomSmsSender(String apiKey, String senderNumber) {
+        PhoneNumberValidator.validatePhoneNumber(senderNumber);
         this.apiKey = apiKey;
         this.senderNumber = senderNumber;
         restTemplate = new RestTemplate();
@@ -60,6 +62,7 @@ public class SwisscomSmsSender {
      * @param clientCorrelator An id that can be found in the logs of Swisscom
      */
     public SwisscomSmsSender(String apiKey, String senderNumber, String senderName, String clientCorrelator) {
+        PhoneNumberValidator.validatePhoneNumber(senderNumber);
         this.apiKey = apiKey;
         this.senderNumber = senderNumber;
         this.senderName = senderName;
@@ -74,6 +77,7 @@ public class SwisscomSmsSender {
      * @param receiverNumbers the numbers of the receivers (i.e. +41791234567)
      */
     public void sendSms(String message, String... receiverNumbers) {
+        PhoneNumberValidator.validatePhoneNumbers(receiverNumbers);
         SendSMSRequest sendSMSRequest = new SendSMSRequest();
         sendSMSRequest.setOutboundSMSMessageRequest(createOutboundSMSMessageRequest(message, receiverNumbers));
         restTemplate.postForObject(createRequestUri(), new HttpEntity(sendSMSRequest, HeaderFactory.createHeaders(apiKey)), HttpEntity.class);

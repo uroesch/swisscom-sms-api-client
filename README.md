@@ -9,4 +9,14 @@ The SMS-API of Swisscom is published and documented at the [Swisscom Developer P
 
 To use the API with this client you have to register at the [Swisscom developer portal](https://developer.swisscom.com/) and create an API-Key.
 
-<script src="https://gist.github.com/rufer7/245d6c4044b4bc3160d9.js"></script>
+```java
+public class SmsSenderExample
+{
+    public static void main( String[] args )
+    {
+      // SENDER_NUMBER and RECEIVER_NUMBER1 in the following format: +41791234567
+      SwisscomSmsSender smsSender = new SwisscomSmsSender("API_KEY", "SENDER_NUMBER");
+      smsSender.sendSms("MESSAGE", "RECEIVER_NUMBER1");
+    }
+}
+```

@@ -17,7 +17,7 @@ package web.rufer.swisscom.sms.api.domain;
 
 import java.util.List;
 
-public class OutboundSMSMessageRequest {
+public class OutboundSMSMessageWrapper {
 
     private List<String> address;
 

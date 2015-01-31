@@ -17,16 +17,16 @@ package web.rufer.swisscom.sms.api.domain;
 
 public class SendSMSRequest {
 
-    private OutboundSMSMessageRequest outboundSMSMessageRequest;
+    private OutboundSMSMessageWrapper outboundSMSMessageWrapper;
 
     public SendSMSRequest() {
     }
 
-    public OutboundSMSMessageRequest getOutboundSMSMessageRequest() {
-        return outboundSMSMessageRequest;
+    public OutboundSMSMessageWrapper getOutboundSMSMessageWrapper() {
+        return outboundSMSMessageWrapper;
     }
 
-    public void setOutboundSMSMessageRequest(OutboundSMSMessageRequest outboundSMSMessageRequest) {
-        this.outboundSMSMessageRequest = outboundSMSMessageRequest;
+    public void setOutboundSMSMessageWrapper(OutboundSMSMessageWrapper outboundSMSMessageWrapper) {
+        this.outboundSMSMessageWrapper = outboundSMSMessageWrapper;
     }
 }

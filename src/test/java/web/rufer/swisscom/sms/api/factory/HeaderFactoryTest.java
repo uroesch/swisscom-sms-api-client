@@ -34,4 +34,10 @@ public class HeaderFactoryTest {
         HttpHeaders headers = HeaderFactory.createHeaders(API_KEY);
         assertEquals(API_KEY, headers.get("client_id").get(0));
     }
+
+    @Test
+    public void createHeadersWithNullValueReturnsHeadersWithNullApiKey() {
+        HttpHeaders headers = HeaderFactory.createHeaders(null);
+        assertEquals(null, headers.get("client_id").get(0));
+    }
 }

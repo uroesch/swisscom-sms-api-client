@@ -13,6 +13,8 @@ The following code snippet shows how to use the Swisscom API-Client
 
 
 ```java
+import web.rufer.swisscom.sms.api.client.SwisscomSmsSender;
+
 public class SmsSenderExample
 {
     public static void main( String[] args )

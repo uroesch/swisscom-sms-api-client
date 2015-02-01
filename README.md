@@ -11,6 +11,7 @@ To use the API with this client you have to register at the [Swisscom developer 
 
 The following code snippet shows how to use the Swisscom API-Client
 
+
 ```java
 public class SmsSenderExample
 {

@@ -28,7 +28,7 @@ public class PhoneNumberValidatorTest {
 
     @Before
     public void init() {
-        // Put test initialization here
+        // Here is the place to do the initialization for the tests
     }
 
     @Test(expected = InvalidPhoneNumberException.class)

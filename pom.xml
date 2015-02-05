@@ -29,7 +29,6 @@
         </developer>
     </developers>
 
-
     <scm>
         <connection>scm:git:git@github.com:rufer7/swisscom-sms-api-client.git</connection>
         <developerConnection>scm:git:git@github.com:rufer7/swisscom-sms-api-client.git</developerConnection>

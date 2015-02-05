@@ -29,10 +29,11 @@
         </developer>
     </developers>
 
+
     <scm>
-        <connection>scm:git:https://github.com/rufer7/swisscom-sms-api-client</connection>
-        <developerConnection>scm:git:https://github.com/rufer7/swisscom-sms-api-client</developerConnection>
-        <url>https://github.com/rufer7/swisscom-sms-api-client</url>
+        <connection>scm:git:git@github.com:rufer7/swisscom-sms-api-client.git</connection>
+        <developerConnection>scm:git:git@github.com:rufer7/swisscom-sms-api-client.git</developerConnection>
+        <url>git@github.com:rufer7/swisscom-sms-api-client.git</url>
     </scm>
 
     <properties>

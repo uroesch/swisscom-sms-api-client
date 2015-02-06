@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.client.RestTemplate;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
+import web.rufer.swisscom.sms.api.exception.ValidationException;
 
 import java.net.URI;
 import java.util.List;
@@ -39,8 +40,10 @@ public class SwisscomSmsSenderTest {
     private final String API_KEY = "12345";
     private final String SENDER_NAME = "Muster";
     private final String SENDER_NUMBER = "+41791234567";
+    private final String INVALID_SENDER_NUMBER = "41791234567";
     private final String SAMPLE_MESSAGE = "test";
     private final String RECEIVER_NUMBER = "+41791234568";
+    private final String INVALID_RECEIVER_NUMBER = "41791234568";
     private final String CLIENT_CORRELATOR = "client-correlator";
     private final String EXPECTED_SENDER_NUMBER = "tel:+41791234567";
     private final String EXPECTED_RECEIVER_NUMBER = "tel:+41791234568";
@@ -93,5 +96,26 @@ public class SwisscomSmsSenderTest {
         List receivers = swisscomSmsSender.prefixAndAddReceiverNumbersToList(receiverArray);
         String[] expectedResult = {EXPECTED_RECEIVER_NUMBER};
         assertArrayEquals(expectedResult, receivers.toArray());
+    }
+
+    @Test(expected = ValidationException.class)
+         public void swisscomSmsSenderCreationThrowsValidationException() {
+        new SwisscomSmsSender(API_KEY, INVALID_SENDER_NUMBER);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void swisscomSmsSenderCreationWithExtendedConstructorThrowsValidationException() {
+        new SwisscomSmsSender(API_KEY, INVALID_SENDER_NUMBER, SENDER_NAME, CLIENT_CORRELATOR);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void sendSmsWithInvalidReceiverNumberThrowsValidationException() {
+        swisscomSmsSender.sendSms(SAMPLE_MESSAGE, INVALID_RECEIVER_NUMBER);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void sendSmsWithInvalidReceiverNumberCollectionThrowsValidationException() {
+        String[] phoneNumbers = new String[] {INVALID_RECEIVER_NUMBER, RECEIVER_NUMBER};
+        swisscomSmsSender.sendSms(SAMPLE_MESSAGE, phoneNumbers);
     }
 }

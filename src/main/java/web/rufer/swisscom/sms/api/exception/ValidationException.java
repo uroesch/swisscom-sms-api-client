@@ -15,9 +15,9 @@
  */
 package web.rufer.swisscom.sms.api.exception;
 
-public class InvalidPhoneNumberException extends RuntimeException {
+public class ValidationException extends RuntimeException {
 
-    public InvalidPhoneNumberException(String message) {
+    public ValidationException(String message) {
         super(message);
     }
 }

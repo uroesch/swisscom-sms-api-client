@@ -15,30 +15,27 @@
  */
 package web.rufer.swisscom.sms.api.validation;
 
-import web.rufer.swisscom.sms.api.exception.InvalidPhoneNumberException;
+import web.rufer.swisscom.sms.api.exception.ValidationException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PhoneNumberValidator {
+public class PhoneNumberValidator extends AbstractValidator {
 
-    private static final String PHONE_NUMBER_REGEXP = "(\\+41)(\\d{9})";
+    private final String PHONE_NUMBER_REGEXP = "(\\+41)(\\d{9})";
 
-    public static void validatePhoneNumber(String phoneNumberToCheck) {
-        Pattern pattern = Pattern.compile(PHONE_NUMBER_REGEXP);
-        Matcher matcher = pattern.matcher(phoneNumberToCheck);
-        if (invalidPhoneNumber(matcher)) {
-            throw new InvalidPhoneNumberException("The phone number '" + phoneNumberToCheck + "' is invalid!");
+    @Override
+    public <T> void validate(T... objectsToValidate) {
+        for (T t : objectsToValidate) {
+            Matcher matcher = Pattern.compile(PHONE_NUMBER_REGEXP).matcher(t.toString());
+            if (numberMatchesRegexp(matcher)) {
+                throw new ValidationException("The phone number '" + t.toString() + "' is invalid!");
+            }
         }
+        if (null != nextValidator) nextValidator.validate(objectsToValidate);
     }
 
-    private static boolean invalidPhoneNumber(Matcher matcher) {
+    protected boolean numberMatchesRegexp(Matcher matcher) {
         return !matcher.matches();
-    }
-
-    public static void validatePhoneNumbers(String... phoneNumbersToCheck) {
-        for (String phoneNumberToCheck : phoneNumbersToCheck) {
-            validatePhoneNumber(phoneNumberToCheck);
-        }
     }
 }

@@ -21,18 +21,21 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.client.RestTemplate;
+import web.rufer.swisscom.sms.api.domain.CommunicationWrapper;
+import web.rufer.swisscom.sms.api.domain.DeliveryInfo;
+import web.rufer.swisscom.sms.api.domain.DeliveryInfoList;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.exception.ValidationException;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SwisscomSmsSenderTest {
@@ -45,6 +48,7 @@ public class SwisscomSmsSenderTest {
     private final String RECEIVER_NUMBER = "+41791234568";
     private final String INVALID_RECEIVER_NUMBER = "41791234568";
     private final String CLIENT_CORRELATOR = "client-correlator";
+    private final String DELIVERY_STATUS = "DeliveredToNetwork";
     private final String EXPECTED_SENDER_NUMBER = "tel:+41791234567";
     private final String EXPECTED_RECEIVER_NUMBER = "tel:+41791234568";
     private final String EXPECTED_REQUEST_URI_AS_STRING = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B41791234567/requests";
@@ -64,6 +68,26 @@ public class SwisscomSmsSenderTest {
     public void sendSmsCallsRestTemplatePostForObjectMethodOnce() {
         swisscomSmsSender.sendSms(SAMPLE_MESSAGE, RECEIVER_NUMBER);
         verify(restTemplate, times(1)).postForObject(any(URI.class), anyObject(), any(Class.class));
+    }
+
+    @Test
+    public void sendSmsReturnsCommunicationWrapper() {
+        when(restTemplate.postForObject(any(URI.class), anyObject(), any(Class.class))).thenReturn(createSampleCommunicationWrapper());
+        CommunicationWrapper communicationWrapper = swisscomSmsSender.sendSms(SAMPLE_MESSAGE, RECEIVER_NUMBER);
+        assertEquals(DELIVERY_STATUS, communicationWrapper.getOutboundSMSMessageRequest().getDeliveryInfoList().getDeliveryInfo().get(0).getDeliveryStatus());
+    }
+
+    private CommunicationWrapper createSampleCommunicationWrapper() {
+        CommunicationWrapper communicationWrapper = new CommunicationWrapper();
+        DeliveryInfoList deliveryInfoList = new DeliveryInfoList();
+        DeliveryInfo deliveryInfo = new DeliveryInfo();
+        deliveryInfo.setAddress(RECEIVER_NUMBER);
+        deliveryInfo.setDeliveryStatus(DELIVERY_STATUS);
+        deliveryInfoList.setDeliveryInfo(Arrays.asList(deliveryInfo));
+        OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
+        outboundSMSMessageRequest.setDeliveryInfoList(deliveryInfoList);
+        communicationWrapper.setOutboundSMSMessageRequest(outboundSMSMessageRequest);
+        return communicationWrapper;
     }
 
     @Test

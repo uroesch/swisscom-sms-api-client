@@ -13,15 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package web.rufer.swisscom.sms.api.validation;
+package web.rufer.swisscom.sms.api.domain;
 
-public abstract class AbstractValidator {
+public class DeliveryInfo {
 
-    protected AbstractValidator nextValidator;
+    private String address;
 
-    public abstract <T> void validate(T... objectsToValidate);
+    private String deliveryStatus;
 
-    public void setNextValidator(AbstractValidator nextValidator) {
-        this.nextValidator = nextValidator;
+    public DeliveryInfo() {
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
     }
 }

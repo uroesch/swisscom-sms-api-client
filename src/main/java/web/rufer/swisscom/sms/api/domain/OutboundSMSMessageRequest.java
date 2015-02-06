@@ -32,6 +32,11 @@ public class OutboundSMSMessageRequest {
 
     private String senderName;
 
+    private DeliveryInfoList deliveryInfoList;
+
+    public OutboundSMSMessageRequest() {
+    }
+
     public List<String> getAddress() {
         return address;
     }
@@ -70,5 +75,13 @@ public class OutboundSMSMessageRequest {
 
     public void setSenderName(String senderName) {
         this.senderName = senderName;
+    }
+
+    public DeliveryInfoList getDeliveryInfoList() {
+        return deliveryInfoList;
+    }
+
+    public void setDeliveryInfoList(DeliveryInfoList deliveryInfoList) {
+        this.deliveryInfoList = deliveryInfoList;
     }
 }

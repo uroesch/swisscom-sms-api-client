@@ -15,11 +15,11 @@
  */
 package web.rufer.swisscom.sms.api.domain;
 
-public class SendSMSRequest {
+public class CommunicationWrapper {
 
     private OutboundSMSMessageRequest outboundSMSMessageRequest;
 
-    public SendSMSRequest() {
+    public CommunicationWrapper() {
     }
 
     public OutboundSMSMessageRequest getOutboundSMSMessageRequest() {

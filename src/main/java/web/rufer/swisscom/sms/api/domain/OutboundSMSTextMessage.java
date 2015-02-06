@@ -19,6 +19,9 @@ public class OutboundSMSTextMessage {
 
     private String message;
 
+    public OutboundSMSTextMessage() {
+    }
+
     public OutboundSMSTextMessage(String message) {
         this.message = message;
     }

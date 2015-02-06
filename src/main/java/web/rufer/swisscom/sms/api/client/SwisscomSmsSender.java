@@ -19,7 +19,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
-import web.rufer.swisscom.sms.api.domain.SendSMSRequest;
+import web.rufer.swisscom.sms.api.domain.CommunicationWrapper;
 import web.rufer.swisscom.sms.api.factory.HeaderFactory;
 import web.rufer.swisscom.sms.api.validation.AbstractValidator;
 import web.rufer.swisscom.sms.api.validation.PhoneNumberValidator;
@@ -78,11 +78,11 @@ public class SwisscomSmsSender {
      * @param message the message text
      * @param receiverNumbers the numbers of the receivers (i.e. +41791234567)
      */
-    public void sendSms(String message, String... receiverNumbers) {
+    public CommunicationWrapper sendSms(String message, String... receiverNumbers) {
         validator.validate(receiverNumbers);
-        SendSMSRequest sendSMSRequest = new SendSMSRequest();
-        sendSMSRequest.setOutboundSMSMessageRequest(createOutboundSMSMessageRequest(message, receiverNumbers));
-        restTemplate.postForObject(createRequestUri(), new HttpEntity(sendSMSRequest, HeaderFactory.createHeaders(apiKey)), HttpEntity.class);
+        CommunicationWrapper communicationWrapper = new CommunicationWrapper();
+        communicationWrapper.setOutboundSMSMessageRequest(createOutboundSMSMessageRequest(message, receiverNumbers));
+        return restTemplate.postForObject(createRequestUri(), new HttpEntity(communicationWrapper, HeaderFactory.createHeaders(apiKey)), CommunicationWrapper.class);
     }
 
     protected OutboundSMSMessageRequest createOutboundSMSMessageRequest(String message, String[] receiverNumbers) {

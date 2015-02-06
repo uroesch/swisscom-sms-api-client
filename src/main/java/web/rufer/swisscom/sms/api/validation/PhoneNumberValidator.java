@@ -22,12 +22,13 @@ import java.util.regex.Pattern;
 
 public class PhoneNumberValidator extends AbstractValidator {
 
-    private final String PHONE_NUMBER_REGEXP = "(\\+41)(\\d{9})";
+    private static final String PHONE_NUMBER_REGEXP = "(\\+41)(\\d{9})";
+    private Pattern pattern = Pattern.compile(PHONE_NUMBER_REGEXP);
 
     @Override
     public <T> void validate(T... objectsToValidate) {
         for (T t : objectsToValidate) {
-            Matcher matcher = Pattern.compile(PHONE_NUMBER_REGEXP).matcher(t.toString());
+            Matcher matcher = pattern.matcher(t.toString());
             if (numberMatchesRegexp(matcher)) {
                 throw new ValidationException("The phone number '" + t.toString() + "' is invalid!");
             }

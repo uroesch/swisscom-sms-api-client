@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 public class PhoneNumberValidator extends AbstractValidator {
 
     private static final String PHONE_NUMBER_REGEXP = "(\\+41)(\\d{9})";
-    private Pattern pattern = Pattern.compile(PHONE_NUMBER_REGEXP);
+    private final Pattern pattern = Pattern.compile(PHONE_NUMBER_REGEXP);
 
     @Override
     public <T> void validate(T... objectsToValidate) {

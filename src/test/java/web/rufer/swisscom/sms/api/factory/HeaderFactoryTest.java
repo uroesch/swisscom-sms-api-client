@@ -18,12 +18,17 @@ package web.rufer.swisscom.sms.api.factory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
+import java.util.Arrays;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class HeaderFactoryTest {
 
-    private final String API_KEY = "12345";
+    private static final String API_KEY = "12345";
+    private static final String CLIENT_ID = "client_id";
 
     @Before
     public void init() {
@@ -33,12 +38,24 @@ public class HeaderFactoryTest {
     @Test
     public void createHeadersReturnsHeadersWithAPIKey() {
         HttpHeaders headers = HeaderFactory.createHeaders(API_KEY);
-        assertEquals(API_KEY, headers.get("client_id").get(0));
+        assertEquals(API_KEY, headers.get(CLIENT_ID).get(0));
+    }
+
+    @Test
+    public void createHeadersReturnsHeadersWithContentTypeApplicationJson() {
+        HttpHeaders headers = HeaderFactory.createHeaders(API_KEY);
+        assertEquals(MediaType.APPLICATION_JSON, headers.getContentType());
+    }
+
+    @Test
+    public void createHeadersReturnsHeadersWithAcceptApplicationJson() {
+        HttpHeaders headers = HeaderFactory.createHeaders(API_KEY);
+        assertArrayEquals(Arrays.asList(MediaType.APPLICATION_JSON).toArray(), headers.getAccept().toArray());
     }
 
     @Test
     public void createHeadersWithNullValueReturnsHeadersWithNullApiKey() {
         HttpHeaders headers = HeaderFactory.createHeaders(null);
-        assertEquals(null, headers.get("client_id").get(0));
+        assertEquals(null, headers.get(CLIENT_ID).get(0));
     }
 }

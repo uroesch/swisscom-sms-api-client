@@ -1,7 +1,6 @@
 # Swisscom SMS-API-Client
 [![Build Status](https://travis-ci.org/rufer7/swisscom-sms-api-client.svg)](https://travis-ci.org/rufer7/swisscom-sms-api-client)
 [![Coverage Status](https://coveralls.io/repos/rufer7/swisscom-sms-api-client/badge.svg?branch=master)](https://coveralls.io/r/rufer7/swisscom-sms-api-client?branch=master)
-[![Security](https://hakiri.io/github/rufer7/swisscom-sms-api-client/master.svg)](https://hakiri.io/github/rufer7/swisscom-sms-api-client/master)
 [![License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/rufer7/swisscom-sms-api-client/blob/master/LICENSE)
 [![Releases](https://img.shields.io/github/release/rufer7/swisscom-sms-api-client.svg)](https://github.com/rufer7/swisscom-sms-api-client/releases)
 

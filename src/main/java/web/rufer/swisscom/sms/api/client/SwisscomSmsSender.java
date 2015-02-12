@@ -40,7 +40,7 @@ public class SwisscomSmsSender {
     private String senderName;
     private String clientCorrelator;
     private AbstractValidator validator = new PhoneNumberValidator();
-    protected RestTemplate restTemplate;
+    RestTemplate restTemplate;
 
     /**
      * Constructor

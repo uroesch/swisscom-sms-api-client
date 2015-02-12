@@ -48,9 +48,9 @@ public class SwisscomSmsSenderTest {
     private final String RECEIVER_NUMBER = "+41791234568";
     private final String INVALID_RECEIVER_NUMBER = "41791234568";
     private final String CLIENT_CORRELATOR = "client-correlator";
-    private final String DELIVERY_STATUS = "DeliveredToNetwork";
     private final String EXPECTED_SENDER_NUMBER = "tel:+41791234567";
     private final String EXPECTED_RECEIVER_NUMBER = "tel:+41791234568";
+    private final String SUCESSFUL_DELIVERY_STATUS = "DeliveredToNetwork";
     private final String EXPECTED_REQUEST_URI_AS_STRING = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B41791234567/requests";
 
     private SwisscomSmsSender swisscomSmsSender;
@@ -65,7 +65,7 @@ public class SwisscomSmsSenderTest {
     }
 
     @Test
-    public void sendSmsCallsRestTemplatePostForObjectMethodOnce() {
+     public void sendSmsCallsRestTemplatePostForObjectMethodOnce() {
         swisscomSmsSender.sendSms(SAMPLE_MESSAGE, RECEIVER_NUMBER);
         verify(restTemplate, times(1)).postForObject(any(URI.class), anyObject(), any(Class.class));
     }
@@ -74,7 +74,7 @@ public class SwisscomSmsSenderTest {
     public void sendSmsReturnsCommunicationWrapper() {
         when(restTemplate.postForObject(any(URI.class), anyObject(), any(Class.class))).thenReturn(createSampleCommunicationWrapper());
         CommunicationWrapper communicationWrapper = swisscomSmsSender.sendSms(SAMPLE_MESSAGE, RECEIVER_NUMBER);
-        assertEquals(DELIVERY_STATUS, communicationWrapper.getOutboundSMSMessageRequest().getDeliveryInfoList().getDeliveryInfo().get(0).getDeliveryStatus());
+        assertEquals(SUCESSFUL_DELIVERY_STATUS, communicationWrapper.getOutboundSMSMessageRequest().getDeliveryInfoList().getDeliveryInfo().get(0).getDeliveryStatus());
     }
 
     private CommunicationWrapper createSampleCommunicationWrapper() {
@@ -82,7 +82,7 @@ public class SwisscomSmsSenderTest {
         DeliveryInfoList deliveryInfoList = new DeliveryInfoList();
         DeliveryInfo deliveryInfo = new DeliveryInfo();
         deliveryInfo.setAddress(RECEIVER_NUMBER);
-        deliveryInfo.setDeliveryStatus(DELIVERY_STATUS);
+        deliveryInfo.setDeliveryStatus(SUCESSFUL_DELIVERY_STATUS);
         deliveryInfoList.setDeliveryInfo(Arrays.asList(deliveryInfo));
         OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
         outboundSMSMessageRequest.setDeliveryInfoList(deliveryInfoList);
@@ -91,7 +91,7 @@ public class SwisscomSmsSenderTest {
     }
 
     @Test
-    public void createRequestUriReturnsURIWithSenderNumber() {
+    public void createRequestUriReturnsURIContainingSenderNumber() {
         assertEquals(URI.create(EXPECTED_REQUEST_URI_AS_STRING), swisscomSmsSender.createRequestUri());
     }
 
@@ -123,7 +123,7 @@ public class SwisscomSmsSenderTest {
     }
 
     @Test(expected = ValidationException.class)
-         public void swisscomSmsSenderCreationThrowsValidationException() {
+     public void swisscomSmsSenderCreationThrowsValidationException() {
         new SwisscomSmsSender(API_KEY, INVALID_SENDER_NUMBER);
     }
 

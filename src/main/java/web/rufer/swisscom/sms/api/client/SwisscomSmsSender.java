@@ -86,13 +86,13 @@ public class SwisscomSmsSender {
     }
 
     protected OutboundSMSMessageRequest createOutboundSMSMessageRequest(String message, String[] receiverNumbers) {
-        OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
-        outboundSMSMessageRequest.setSenderAddress(String.join(DELIMITER, NUMBER_PREFIX, senderNumber));
-        outboundSMSMessageRequest.setAddress(prefixAndAddReceiverNumbersToList(receiverNumbers));
-        outboundSMSMessageRequest.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
-        outboundSMSMessageRequest.setSenderName(senderName);
-        outboundSMSMessageRequest.setClientCorrelator(clientCorrelator);
-        return outboundSMSMessageRequest;
+        OutboundSMSMessageRequest smsMessageRequest = new OutboundSMSMessageRequest();
+        smsMessageRequest.setSenderAddress(String.join(DELIMITER, NUMBER_PREFIX, senderNumber));
+        smsMessageRequest.setAddress(prefixAndAddReceiverNumbersToList(receiverNumbers));
+        smsMessageRequest.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
+        smsMessageRequest.setSenderName(senderName);
+        smsMessageRequest.setClientCorrelator(clientCorrelator);
+        return smsMessageRequest;
     }
 
     protected List<String> prefixAndAddReceiverNumbersToList(String[] receiverNumbers) {

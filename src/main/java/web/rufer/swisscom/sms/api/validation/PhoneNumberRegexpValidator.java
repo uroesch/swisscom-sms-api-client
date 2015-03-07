@@ -20,7 +20,7 @@ import web.rufer.swisscom.sms.api.exception.ValidationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PhoneNumberValidator extends AbstractValidator {
+public class PhoneNumberRegexpValidator implements Validator {
 
     private static final String PHONE_NUMBER_REGEXP = "(\\+41)(\\d{9})";
     private final Pattern pattern = Pattern.compile(PHONE_NUMBER_REGEXP);
@@ -33,7 +33,6 @@ public class PhoneNumberValidator extends AbstractValidator {
                 throw new ValidationException("The phone number '" + t.toString() + "' is invalid!");
             }
         }
-        if (null != nextValidator) nextValidator.validate(objectsToValidate);
     }
 
     protected boolean numberMatchesRegexp(Matcher matcher) {

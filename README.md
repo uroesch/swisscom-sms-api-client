@@ -22,11 +22,11 @@ public class SmsSenderExample
 {
     public static void main( String[] args )
     {
-      // SENDER_NUMBER and RECEIVER_NUMBERX in the following format: +41791234567
+      // SENDER_NUMBER and RECEIVER_NUMBER1 in the following format: +41791234567
       SwisscomSmsSender smsSender = new SwisscomSmsSender("API_KEY", "SENDER_NUMBER");
-      smsSender.sendSms("MESSAGE", "RECEIVER_NUMBER1");
+      CommunicationWrapper response = smsSender.sendSms("MESSAGE", "RECEIVER_NUMBER1");
       // Sending a SMS to several receivers
-      smsSender.sendSms("MESSAGE", "RECEIVER_NUMBER1", "RECEIVER_NUMBER2");
+      CommunicationWrapper response2 = smsSender.sendSms("MESSAGE", "RECEIVER_NUMBER1", "RECEIVER_NUMBER2");
     }
 }
 ```

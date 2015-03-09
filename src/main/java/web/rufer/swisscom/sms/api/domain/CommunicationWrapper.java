@@ -15,6 +15,9 @@
  */
 package web.rufer.swisscom.sms.api.domain;
 
+/**
+ * Wrapper object for communication with the SMS Api
+ */
 public class CommunicationWrapper {
 
     private OutboundSMSMessageRequest outboundSMSMessageRequest;

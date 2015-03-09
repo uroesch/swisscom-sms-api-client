@@ -15,7 +15,7 @@
  */
 package web.rufer.swisscom.sms.api.validation;
 
-public interface Validator {
+public interface ValidationStrategy {
 
     public abstract <T> void validate(T... objectsToValidate);
 }

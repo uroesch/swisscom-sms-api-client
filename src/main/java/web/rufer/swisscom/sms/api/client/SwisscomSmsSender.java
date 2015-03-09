@@ -21,7 +21,7 @@ import web.rufer.swisscom.sms.api.domain.CommunicationWrapper;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
 import web.rufer.swisscom.sms.api.factory.HeaderFactory;
-import web.rufer.swisscom.sms.api.validation.PhoneNumberRegexpValidator;
+import web.rufer.swisscom.sms.api.validation.PhoneNumberRegexpValidationStrategy;
 import web.rufer.swisscom.sms.api.validation.ValidationChain;
 
 import java.net.URI;
@@ -39,7 +39,7 @@ public class SwisscomSmsSender {
     private String senderNumber;
     private String senderName;
     private String clientCorrelator;
-    private ValidationChain validationChain = ValidationChain.builder().add(new PhoneNumberRegexpValidator()).build();
+    private ValidationChain validationChain = ValidationChain.builder().add(new PhoneNumberRegexpValidationStrategy()).build();
     protected RestTemplate restTemplate;
 
     /**

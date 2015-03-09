@@ -19,21 +19,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import web.rufer.swisscom.sms.api.exception.ValidationException;
+import web.rufer.swisscom.sms.api.exception.PhoneNumberRegexpValidationException;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PhoneNumberRegexpValidatorTest {
+public class PhoneNumberRegexpValidationStrategyTest {
 
     private final String VALID_PHONE_NUMBER = "+41791234567";
     private final String INVALID_PHONE_NUMBER = "41791234567";
     private final String[] INVALID_PHONE_NUMBER_COLLECTION = {VALID_PHONE_NUMBER, INVALID_PHONE_NUMBER};
     private final String[] VALID_PHONE_NUMBER_COLLECTION = {VALID_PHONE_NUMBER, VALID_PHONE_NUMBER};
 
-    private PhoneNumberRegexpValidator phoneNumberRegexpValidator;
+    private PhoneNumberRegexpValidationStrategy phoneNumberRegexpValidator;
 
     @Before
     public void init() {
-        phoneNumberRegexpValidator = new PhoneNumberRegexpValidator();
+        phoneNumberRegexpValidator = new PhoneNumberRegexpValidationStrategy();
     }
 
     @Test
@@ -41,12 +41,12 @@ public class PhoneNumberRegexpValidatorTest {
         phoneNumberRegexpValidator.validate(VALID_PHONE_NUMBER_COLLECTION);
     }
 
-    @Test(expected = ValidationException.class)
+    @Test(expected = PhoneNumberRegexpValidationException.class)
          public void validateInvalidPhoneNumberThrowsInvalidNumberException() {
         phoneNumberRegexpValidator.validate(INVALID_PHONE_NUMBER);
     }
 
-    @Test(expected = ValidationException.class)
+    @Test(expected = PhoneNumberRegexpValidationException.class)
     public void validateInvalidPhoneNumberCollectionThrowsInvalidNumberException() {
         phoneNumberRegexpValidator.validate(INVALID_PHONE_NUMBER_COLLECTION);
     }

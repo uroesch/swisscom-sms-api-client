@@ -18,6 +18,10 @@ package web.rufer.swisscom.sms.api.validation;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Chain for validation, which contains a list of validation strategies, which will be called if
+ * validation is executed on the chain.
+ */
 public class ValidationChain {
 
     private List<ValidationStrategy> validationStrategies;
@@ -34,9 +38,14 @@ public class ValidationChain {
         return new Builder();
     }
 
-    public void executeValidation(String... numbersToValidate) {
+    /**
+     * Executes the validate-method on each added strategy.
+     *
+     * @param phoneNumbersToValidate the phone numbers as strings to validate
+     */
+    public void executeValidation(String... phoneNumbersToValidate) {
         for (ValidationStrategy validationStrategy : validationStrategies) {
-            validationStrategy.validate(numbersToValidate);
+            validationStrategy.validate(phoneNumbersToValidate);
         }
     }
 

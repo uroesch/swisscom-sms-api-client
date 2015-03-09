@@ -18,7 +18,10 @@ package web.rufer.swisscom.sms.api.domain;
 import java.util.List;
 
 /**
- * Domain object, which holds information about the delivery.
+ * DeliveryInfoList object holds a list of delivery information.
+ *
+ * Description for all the properties can be found under the following link:
+ * {@linktourl https://developer.swisscom.com/documentation/api/products/SMS%20Messaging}
  */
 public class DeliveryInfoList {
 

@@ -15,6 +15,9 @@
  */
 package web.rufer.swisscom.sms.api.exception;
 
+/**
+ * Specific validation exception for phone number validation against regular expression.
+ */
 public class PhoneNumberRegexpValidationException extends ValidationException {
 
     private static final String EXCEPTION_MESSAGE_TEMPLATE = "Validation failed. The phone number '%s' is not matching the validation pattern: '%s'";

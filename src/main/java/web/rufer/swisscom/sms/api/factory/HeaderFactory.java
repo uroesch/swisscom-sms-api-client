@@ -18,6 +18,9 @@ package web.rufer.swisscom.sms.api.factory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
+/**
+ * Factory class for generating request headers.
+ */
 public class HeaderFactory {
 
     private static final String CLIENT_ID = "client_id";

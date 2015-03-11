@@ -96,7 +96,7 @@ public class SwisscomSmsSender {
     }
 
     protected List<String> prefixAndAddReceiverNumbersToList(String[] receiverNumbers) {
-        List<String> receivers = new LinkedList();
+        List<String> receivers = new LinkedList<>();
         for (String receiverNumber : receiverNumbers) {
             receivers.add(String.join(DELIMITER, NUMBER_PREFIX, receiverNumber));
         }

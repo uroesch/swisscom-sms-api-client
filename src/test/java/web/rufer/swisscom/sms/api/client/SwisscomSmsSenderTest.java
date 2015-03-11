@@ -117,7 +117,7 @@ public class SwisscomSmsSenderTest {
     @Test
     public void prefixAndAddReceiverNumbersToListReturnsListContainingNumbers() {
         String[] receiverArray = {RECEIVER_NUMBER};
-        List receivers = swisscomSmsSender.prefixAndAddReceiverNumbersToList(receiverArray);
+        List<String> receivers = swisscomSmsSender.prefixAndAddReceiverNumbersToList(receiverArray);
         String[] expectedResult = {EXPECTED_RECEIVER_NUMBER};
         assertArrayEquals(expectedResult, receivers.toArray());
     }

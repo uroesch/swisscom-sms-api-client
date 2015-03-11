@@ -51,7 +51,7 @@ public class ValidationChain {
 
     public static class Builder {
 
-        private List<ValidationStrategy> validationStrategies = new LinkedList();
+        private List<ValidationStrategy> validationStrategies = new LinkedList<>();
 
         public ValidationChain build() {
             return new ValidationChain(this);

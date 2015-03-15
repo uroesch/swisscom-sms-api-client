@@ -15,13 +15,10 @@
  */
 package web.rufer.swisscom.sms.api.validation;
 
-public abstract class AbstractValidator {
-
-    protected AbstractValidator nextValidator;
+/**
+ * Validation strategy to add to a validation chain, which will execute all it's strategies.
+ */
+public interface ValidationStrategy {
 
     public abstract <T> void validate(T... objectsToValidate);
-
-    public void setNextValidator(AbstractValidator nextValidator) {
-        this.nextValidator = nextValidator;
-    }
 }

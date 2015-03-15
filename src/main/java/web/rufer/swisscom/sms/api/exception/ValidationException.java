@@ -15,6 +15,9 @@
  */
 package web.rufer.swisscom.sms.api.exception;
 
+/**
+ * General validation exception.
+ */
 public class ValidationException extends RuntimeException {
 
     public ValidationException(String message) {

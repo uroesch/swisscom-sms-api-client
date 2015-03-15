@@ -25,7 +25,7 @@ import web.rufer.swisscom.sms.api.domain.CommunicationWrapper;
 import web.rufer.swisscom.sms.api.domain.DeliveryInfo;
 import web.rufer.swisscom.sms.api.domain.DeliveryInfoList;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
-import web.rufer.swisscom.sms.api.exception.ValidationException;
+import web.rufer.swisscom.sms.api.exception.PhoneNumberRegexpValidationException;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -50,7 +50,7 @@ public class SwisscomSmsSenderTest {
     private final String CLIENT_CORRELATOR = "client-correlator";
     private final String EXPECTED_SENDER_NUMBER = "tel:+41791234567";
     private final String EXPECTED_RECEIVER_NUMBER = "tel:+41791234568";
-    private final String SUCESSFUL_DELIVERY_STATUS = "DeliveredToNetwork";
+    private final String SUCCESSFUL_DELIVERY_STATUS = "DeliveredToNetwork";
     private final String EXPECTED_REQUEST_URI_AS_STRING = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B41791234567/requests";
 
     private SwisscomSmsSender swisscomSmsSender;
@@ -67,14 +67,14 @@ public class SwisscomSmsSenderTest {
     @Test
      public void sendSmsCallsRestTemplatePostForObjectMethodOnce() {
         swisscomSmsSender.sendSms(SAMPLE_MESSAGE, RECEIVER_NUMBER);
-        verify(restTemplate, times(1)).postForObject(any(URI.class), anyObject(), any(Class.class));
+        verify(restTemplate).postForObject(any(URI.class), anyObject(), any(Class.class));
     }
 
     @Test
     public void sendSmsReturnsCommunicationWrapper() {
         when(restTemplate.postForObject(any(URI.class), anyObject(), any(Class.class))).thenReturn(createSampleCommunicationWrapper());
         CommunicationWrapper communicationWrapper = swisscomSmsSender.sendSms(SAMPLE_MESSAGE, RECEIVER_NUMBER);
-        assertEquals(SUCESSFUL_DELIVERY_STATUS, communicationWrapper.getOutboundSMSMessageRequest().getDeliveryInfoList().getDeliveryInfo().get(0).getDeliveryStatus());
+        assertEquals(SUCCESSFUL_DELIVERY_STATUS, communicationWrapper.getOutboundSMSMessageRequest().getDeliveryInfoList().getDeliveryInfo().get(0).getDeliveryStatus());
     }
 
     private CommunicationWrapper createSampleCommunicationWrapper() {
@@ -82,7 +82,7 @@ public class SwisscomSmsSenderTest {
         DeliveryInfoList deliveryInfoList = new DeliveryInfoList();
         DeliveryInfo deliveryInfo = new DeliveryInfo();
         deliveryInfo.setAddress(RECEIVER_NUMBER);
-        deliveryInfo.setDeliveryStatus(SUCESSFUL_DELIVERY_STATUS);
+        deliveryInfo.setDeliveryStatus(SUCCESSFUL_DELIVERY_STATUS);
         deliveryInfoList.setDeliveryInfo(Arrays.asList(deliveryInfo));
         OutboundSMSMessageRequest outboundSMSMessageRequest = new OutboundSMSMessageRequest();
         outboundSMSMessageRequest.setDeliveryInfoList(deliveryInfoList);
@@ -117,27 +117,27 @@ public class SwisscomSmsSenderTest {
     @Test
     public void prefixAndAddReceiverNumbersToListReturnsListContainingNumbers() {
         String[] receiverArray = {RECEIVER_NUMBER};
-        List receivers = swisscomSmsSender.prefixAndAddReceiverNumbersToList(receiverArray);
+        List<String> receivers = swisscomSmsSender.prefixAndAddReceiverNumbersToList(receiverArray);
         String[] expectedResult = {EXPECTED_RECEIVER_NUMBER};
         assertArrayEquals(expectedResult, receivers.toArray());
     }
 
-    @Test(expected = ValidationException.class)
+    @Test(expected = PhoneNumberRegexpValidationException.class)
      public void swisscomSmsSenderCreationThrowsValidationException() {
         new SwisscomSmsSender(API_KEY, INVALID_SENDER_NUMBER);
     }
 
-    @Test(expected = ValidationException.class)
+    @Test(expected = PhoneNumberRegexpValidationException.class)
     public void swisscomSmsSenderCreationWithExtendedConstructorThrowsValidationException() {
         new SwisscomSmsSender(API_KEY, INVALID_SENDER_NUMBER, SENDER_NAME, CLIENT_CORRELATOR);
     }
 
-    @Test(expected = ValidationException.class)
+    @Test(expected = PhoneNumberRegexpValidationException.class)
     public void sendSmsWithInvalidReceiverNumberThrowsValidationException() {
         swisscomSmsSender.sendSms(SAMPLE_MESSAGE, INVALID_RECEIVER_NUMBER);
     }
 
-    @Test(expected = ValidationException.class)
+    @Test(expected = PhoneNumberRegexpValidationException.class)
     public void sendSmsWithInvalidReceiverNumberCollectionThrowsValidationException() {
         String[] phoneNumbers = new String[] {INVALID_RECEIVER_NUMBER, RECEIVER_NUMBER};
         swisscomSmsSender.sendSms(SAMPLE_MESSAGE, phoneNumbers);

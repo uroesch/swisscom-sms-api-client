@@ -13,23 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package web.rufer.swisscom.sms.api.factory;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+package web.rufer.swisscom.sms.api.exception;
 
 /**
- * Factory class for generating request headers.
+ * Specific validation exception for phone number validation against regular expression.
  */
-public class HeaderFactory {
+public class PhoneNumberRegexpValidationException extends ValidationException {
 
-    private static final String CLIENT_ID = "client_id";
+    private static final String EXCEPTION_MESSAGE_TEMPLATE = "Validation failed. The phone number '%s' is not matching the validation pattern: '%s'";
 
-    public static HttpHeaders createHeaders(String apiKey) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        headers.set(CLIENT_ID, apiKey);
-        return headers;
+    public PhoneNumberRegexpValidationException(String invalidPhoneNumber, String regexp) {
+        super(String.format(EXCEPTION_MESSAGE_TEMPLATE, invalidPhoneNumber, regexp));
     }
 }

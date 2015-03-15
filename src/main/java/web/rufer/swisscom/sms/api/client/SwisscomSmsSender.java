@@ -17,12 +17,12 @@ package web.rufer.swisscom.sms.api.client;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
+import web.rufer.swisscom.sms.api.domain.CommunicationWrapper;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
-import web.rufer.swisscom.sms.api.domain.CommunicationWrapper;
 import web.rufer.swisscom.sms.api.factory.HeaderFactory;
-import web.rufer.swisscom.sms.api.validation.AbstractValidator;
-import web.rufer.swisscom.sms.api.validation.PhoneNumberValidator;
+import web.rufer.swisscom.sms.api.validation.PhoneNumberRegexpValidationStrategy;
+import web.rufer.swisscom.sms.api.validation.ValidationChain;
 
 import java.net.URI;
 import java.util.LinkedList;
@@ -39,7 +39,7 @@ public class SwisscomSmsSender {
     private String senderNumber;
     private String senderName;
     private String clientCorrelator;
-    private AbstractValidator validator = new PhoneNumberValidator();
+    private ValidationChain validationChain = ValidationChain.builder().add(new PhoneNumberRegexpValidationStrategy()).build();
     protected RestTemplate restTemplate;
 
     /**
@@ -49,7 +49,7 @@ public class SwisscomSmsSender {
      * @param senderNumber the number of the sender (i.e. +41791234567)
      */
     public SwisscomSmsSender(String apiKey, String senderNumber) {
-        validator.validate(senderNumber);
+        validationChain.executeValidation(senderNumber);
         this.apiKey = apiKey;
         this.senderNumber = senderNumber;
         this.restTemplate = new RestTemplate();
@@ -64,7 +64,7 @@ public class SwisscomSmsSender {
      * @param clientCorrelator An id that can be found in the logs of Swisscom
      */
     public SwisscomSmsSender(String apiKey, String senderNumber, String senderName, String clientCorrelator) {
-        validator.validate(senderNumber);
+        validationChain.executeValidation(senderNumber);
         this.apiKey = apiKey;
         this.senderNumber = senderNumber;
         this.senderName = senderName;
@@ -79,7 +79,7 @@ public class SwisscomSmsSender {
      * @param receiverNumbers the numbers of the receivers (i.e. +41791234567)
      */
     public CommunicationWrapper sendSms(String message, String... receiverNumbers) {
-        validator.validate(receiverNumbers);
+        validationChain.executeValidation(receiverNumbers);
         CommunicationWrapper communicationWrapper = new CommunicationWrapper();
         communicationWrapper.setOutboundSMSMessageRequest(createOutboundSMSMessageRequest(message, receiverNumbers));
         return restTemplate.postForObject(createRequestUri(), new HttpEntity(communicationWrapper, HeaderFactory.createHeaders(apiKey)), CommunicationWrapper.class);
@@ -96,7 +96,7 @@ public class SwisscomSmsSender {
     }
 
     protected List<String> prefixAndAddReceiverNumbersToList(String[] receiverNumbers) {
-        List<String> receivers = new LinkedList();
+        List<String> receivers = new LinkedList<>();
         for (String receiverNumber : receiverNumbers) {
             receivers.add(String.join(DELIMITER, NUMBER_PREFIX, receiverNumber));
         }

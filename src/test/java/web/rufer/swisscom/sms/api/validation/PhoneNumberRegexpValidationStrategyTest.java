@@ -18,51 +18,36 @@ package web.rufer.swisscom.sms.api.validation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import web.rufer.swisscom.sms.api.exception.ValidationException;
-
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import web.rufer.swisscom.sms.api.exception.PhoneNumberRegexpValidationException;
 
 @RunWith(MockitoJUnitRunner.class)
-public class PhoneNumberValidatorTest {
+public class PhoneNumberRegexpValidationStrategyTest {
 
     private final String VALID_PHONE_NUMBER = "+41791234567";
     private final String INVALID_PHONE_NUMBER = "41791234567";
     private final String[] INVALID_PHONE_NUMBER_COLLECTION = {VALID_PHONE_NUMBER, INVALID_PHONE_NUMBER};
     private final String[] VALID_PHONE_NUMBER_COLLECTION = {VALID_PHONE_NUMBER, VALID_PHONE_NUMBER};
 
-    private PhoneNumberValidator phoneNumberValidator;
-
-    @Mock
-    AbstractValidator nextValidator;
+    private PhoneNumberRegexpValidationStrategy phoneNumberRegexpValidator;
 
     @Before
     public void init() {
-        phoneNumberValidator = new PhoneNumberValidator();
-        phoneNumberValidator.setNextValidator(nextValidator);
-    }
-
-    @Test
-    public void validateWithValidPhoneNumberRunsWithoutException() {
-        phoneNumberValidator.validate(VALID_PHONE_NUMBER);
-        verify(nextValidator, times(1)).validate(anyObject());
+        phoneNumberRegexpValidator = new PhoneNumberRegexpValidationStrategy();
     }
 
     @Test
     public void validateWithValidPhoneNumberCollectionRunsWithoutException() {
-        phoneNumberValidator.validate(VALID_PHONE_NUMBER_COLLECTION);
+        phoneNumberRegexpValidator.validate(VALID_PHONE_NUMBER_COLLECTION);
     }
 
-    @Test(expected = ValidationException.class)
+    @Test(expected = PhoneNumberRegexpValidationException.class)
          public void validateInvalidPhoneNumberThrowsInvalidNumberException() {
-        phoneNumberValidator.validate(INVALID_PHONE_NUMBER);
+        phoneNumberRegexpValidator.validate(INVALID_PHONE_NUMBER);
     }
 
-    @Test(expected = ValidationException.class)
+    @Test(expected = PhoneNumberRegexpValidationException.class)
     public void validateInvalidPhoneNumberCollectionThrowsInvalidNumberException() {
-        phoneNumberValidator.validate(INVALID_PHONE_NUMBER_COLLECTION);
+        phoneNumberRegexpValidator.validate(INVALID_PHONE_NUMBER_COLLECTION);
     }
 }

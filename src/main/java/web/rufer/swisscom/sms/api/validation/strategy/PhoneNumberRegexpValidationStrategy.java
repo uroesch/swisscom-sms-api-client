@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package web.rufer.swisscom.sms.api.validation;
+package web.rufer.swisscom.sms.api.validation.strategy;
 
-import web.rufer.swisscom.sms.api.exception.PhoneNumberRegexpValidationException;
+import web.rufer.swisscom.sms.api.validation.exception.PhoneNumberRegexpValidationException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

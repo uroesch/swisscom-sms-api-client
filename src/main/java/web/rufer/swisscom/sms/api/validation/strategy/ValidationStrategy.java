@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package web.rufer.swisscom.sms.api.validation;
+package web.rufer.swisscom.sms.api.validation.strategy;
 
 /**
  * Validation strategy to add to a validation chain, which will execute all it's strategies.

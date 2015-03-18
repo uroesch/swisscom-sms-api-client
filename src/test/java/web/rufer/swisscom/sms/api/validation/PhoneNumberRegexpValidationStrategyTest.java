@@ -19,7 +19,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import web.rufer.swisscom.sms.api.exception.PhoneNumberRegexpValidationException;
+import web.rufer.swisscom.sms.api.validation.exception.PhoneNumberRegexpValidationException;
+import web.rufer.swisscom.sms.api.validation.strategy.PhoneNumberRegexpValidationStrategy;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PhoneNumberRegexpValidationStrategyTest {

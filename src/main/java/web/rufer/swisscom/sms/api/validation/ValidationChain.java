@@ -15,6 +15,8 @@
  */
 package web.rufer.swisscom.sms.api.validation;
 
+import web.rufer.swisscom.sms.api.validation.strategy.ValidationStrategy;
+
 import java.util.LinkedList;
 import java.util.List;
 

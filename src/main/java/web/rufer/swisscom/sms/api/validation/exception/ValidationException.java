@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package web.rufer.swisscom.sms.api.exception;
+package web.rufer.swisscom.sms.api.validation.exception;
 
 /**
- * Specific validation exception for phone number validation against regular expression.
+ * General validation exception.
  */
-public class PhoneNumberRegexpValidationException extends ValidationException {
+public class ValidationException extends RuntimeException {
 
-    private static final String EXCEPTION_MESSAGE_TEMPLATE = "Validation failed. The phone number '%s' is not matching the validation pattern: '%s'";
-
-    public PhoneNumberRegexpValidationException(String invalidPhoneNumber, String regexp) {
-        super(String.format(EXCEPTION_MESSAGE_TEMPLATE, invalidPhoneNumber, regexp));
+    public ValidationException(String message) {
+        super(message);
     }
 }

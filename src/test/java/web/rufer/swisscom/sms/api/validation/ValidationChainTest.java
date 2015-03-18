@@ -19,10 +19,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import web.rufer.swisscom.sms.api.validation.strategy.PhoneNumberRegexpValidationStrategy;
+import web.rufer.swisscom.sms.api.validation.strategy.ValidationStrategy;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)

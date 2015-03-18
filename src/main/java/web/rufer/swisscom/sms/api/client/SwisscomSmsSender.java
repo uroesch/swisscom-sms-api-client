@@ -21,7 +21,7 @@ import web.rufer.swisscom.sms.api.domain.CommunicationWrapper;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSMessageRequest;
 import web.rufer.swisscom.sms.api.domain.OutboundSMSTextMessage;
 import web.rufer.swisscom.sms.api.factory.HeaderFactory;
-import web.rufer.swisscom.sms.api.validation.PhoneNumberRegexpValidationStrategy;
+import web.rufer.swisscom.sms.api.validation.strategy.PhoneNumberRegexpValidationStrategy;
 import web.rufer.swisscom.sms.api.validation.ValidationChain;
 
 import java.net.URI;

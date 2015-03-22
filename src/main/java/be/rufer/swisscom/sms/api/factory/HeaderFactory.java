@@ -25,6 +25,11 @@ public class HeaderFactory {
 
     private static final String CLIENT_ID = "client_id";
 
+    /**
+     * Creates http headers object based, which contains given api-key
+     * @param apiKey the api-key to enrich the headers with
+     * @return the created headers containing the api-key
+     */
     public static HttpHeaders createHeaders(String apiKey) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);

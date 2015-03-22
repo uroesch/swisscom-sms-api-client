@@ -28,6 +28,10 @@ import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * For every api-key an instance of this class can be created. The swisscom sms sender provides
+ * methods to send sms messages to one or several receivers.
+ */
 public class SwisscomSmsSender {
 
     private static final String API_URI_PREFIX = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B";

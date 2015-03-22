@@ -51,6 +51,9 @@ public class ValidationChain {
         }
     }
 
+    /**
+     * Builder for validation chain objects
+     */
     public static class Builder {
 
         private List<ValidationStrategy> validationStrategies = new LinkedList<>();

@@ -16,7 +16,7 @@ The following code snippet shows how to use the Swisscom API-Client
 
 
 ```java
-import web.rufer.swisscom.sms.api.client.SwisscomSmsSender;
+import SwisscomSmsSender;
 
 public class SmsSenderExample
 {

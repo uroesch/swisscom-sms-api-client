@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>be.rufer.swisscom.sms</groupId>
     <artifactId>api-client</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>Swisscom SMS-API-Client</name>
     <description>A Java library for easy use of the Swisscom SMS API in Java</description>
@@ -33,7 +31,8 @@
         <connection>scm:git:https://github.com/rufer7/swisscom-sms-api-client</connection>
         <developerConnection>scm:git:https://github.com/rufer7/swisscom-sms-api-client</developerConnection>
         <url>https://github.com/rufer7/swisscom-sms-api-client</url>
-    </scm>
+      <tag>swisscom-sms-api-client-v1.0</tag>
+  </scm>
 
     <properties>
         <!-- use UTF-8 for everything -->

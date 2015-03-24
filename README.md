@@ -14,7 +14,7 @@ The SMS-API of Swisscom is published and documented at the [Swisscom Developer P
 To use the API with this client you have to register at the [Swisscom developer portal](https://developer.swisscom.com/) and create an API-Key.
 
 
-## Maven dependency
+### Maven dependency
 
     <dependency>
         <groupId>be.rufer.swisscom.sms</groupId>
@@ -23,7 +23,7 @@ To use the API with this client you have to register at the [Swisscom developer 
     </dependency>
 
 
-## Example code snippet
+### Example code snippet
 
 The following code snippet shows how to use the Swisscom API-Client
 

@@ -19,7 +19,7 @@ package be.rufer.swisscom.sms.api.domain;
  * The sms text message object, which holds the sms message to send.
  *
  * Description for all the properties can be found under the following link:
- * {@linktourl https://developer.swisscom.com/documentation/api/products/SMS%20Messaging}
+ * @see <a href="https://developer.swisscom.com/documentation/api/products/SMS%20Messaging">Swisscom-SMS-API-Documentation</a>
  */
 public class OutboundSMSTextMessage {
 

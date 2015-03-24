@@ -31,3 +31,8 @@ public class SmsSenderExample
     }
 }
 ```
+
+
+## Release
+
+For releasing consider the [maven central maven manual](http://central.sonatype.org/pages/apache-maven.html)

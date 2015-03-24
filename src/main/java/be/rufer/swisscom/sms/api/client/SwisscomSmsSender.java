@@ -81,6 +81,7 @@ public class SwisscomSmsSender {
      *
      * @param message the message text
      * @param receiverNumbers the numbers of the receivers (i.e. +41791234567)
+     * @return communication wrapper object containing delivery information
      */
     public CommunicationWrapper sendSms(String message, String... receiverNumbers) {
         validationChain.executeValidation(receiverNumbers);

@@ -21,7 +21,7 @@ import java.util.List;
  * The sms message request object, which holds all necessary information to send a sms.
  *
  * Description for all the properties can be found under the following link:
- * {@linktourl https://developer.swisscom.com/documentation/api/products/SMS%20Messaging}
+ * @see <a href="https://developer.swisscom.com/documentation/api/products/SMS%20Messaging">Swisscom-SMS-API-Documentation</a>
  */
 public class OutboundSMSMessageRequest {
 

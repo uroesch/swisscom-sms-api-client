@@ -19,7 +19,7 @@ package be.rufer.swisscom.sms.api.domain;
  * The DeliveryInfo object is contained in the response from the API and holds information about the delivery of the message/messages.
  *
  * Description for all the properties can be found under the following link:
- * {@linktourl https://developer.swisscom.com/documentation/api/products/SMS%20Messaging}
+ * @see <a href="https://developer.swisscom.com/documentation/api/products/SMS%20Messaging">Swisscom-SMS-API-Documentation</a>
  */
 public class DeliveryInfo {
 

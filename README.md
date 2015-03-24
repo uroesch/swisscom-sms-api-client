@@ -17,7 +17,7 @@ The following code snippet shows how to use the Swisscom API-Client
 
 
 ```java
-import SwisscomSmsSender;
+import be.rufer.swisscom.sms.api.client.SwisscomSmsSender;
 
 public class SmsSenderExample
 {
@@ -35,4 +35,4 @@ public class SmsSenderExample
 
 ## Release
 
-For releasing consider the [maven central maven manual](http://central.sonatype.org/pages/apache-maven.html)
+For releasing consider the [maven central manual](http://central.sonatype.org/pages/apache-maven.html)

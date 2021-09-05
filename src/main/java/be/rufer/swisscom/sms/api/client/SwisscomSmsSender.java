@@ -1,3 +1,4 @@
+// vim: set shiftwidth=4 tabstop=4 softtabstop=4 expandtab :
 /*
  * Copyright (C) 2015 Marc Rufer (m.rufer@gmx.ch)
  *
@@ -24,9 +25,15 @@ import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
 import be.rufer.swisscom.sms.api.validation.strategy.PhoneNumberRegexpValidationStrategy;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * For every api-key an instance of this class can be created. The swisscom sms sender provides
@@ -34,15 +41,16 @@ import java.util.List;
  */
 public class SwisscomSmsSender {
 
-    private static final String API_URI_PREFIX = "https://api.swisscom.com/v1/messaging/sms/outbound/tel%3A%2B";
-    private static final String API_URI_SUFFIX = "/requests";
-    private static final String NUMBER_PREFIX = "tel:";
+    private static final String API_URI = "https://api.swisscom.com/messaging/sms";
     private static final String DELIMITER = "";
+    private static final String NUMBER_PREFIX = "";
+
 
     private String apiKey;
     private String senderNumber;
     private String senderName;
     private String clientCorrelator;
+    private String requestId;
     private ValidationChain validationChain = ValidationChain.builder().add(new PhoneNumberRegexpValidationStrategy()).build();
     protected RestTemplate restTemplate;
 
@@ -74,6 +82,7 @@ public class SwisscomSmsSender {
         this.senderName = senderName;
         this.clientCorrelator = clientCorrelator;
         this.restTemplate = new RestTemplate();
+        this.requestId = UUID.randomUUID().toString();
     }
 
     /**
@@ -83,17 +92,25 @@ public class SwisscomSmsSender {
      * @param receiverNumbers the numbers of the receivers (i.e. +41791234567)
      * @return communication wrapper object containing delivery information
      */
-    public CommunicationWrapper sendSms(String message, String... receiverNumbers) {
-        validationChain.executeValidation(receiverNumbers);
+    public CommunicationWrapper sendSms(String message, String receiverNumber) {
+        validationChain.executeValidation(receiverNumber);
         CommunicationWrapper communicationWrapper = new CommunicationWrapper();
-        communicationWrapper.setOutboundSMSMessageRequest(createOutboundSMSMessageRequest(message, receiverNumbers));
-        return restTemplate.postForObject(createRequestUri(), new HttpEntity(communicationWrapper, HeaderFactory.createHeaders(apiKey)), CommunicationWrapper.class);
+        communicationWrapper.setOutboundSMSMessageRequest(createOutboundSMSMessageRequest(message, receiverNumber));
+        return restTemplate.postForObject(
+            createRequestUri(),
+            new HttpEntity(
+                communicationWrapper.getOutboundSMSMessageRequest().toJson(),
+                HeaderFactory.createHeaders(apiKey, requestId)
+            ),
+            CommunicationWrapper.class
+
+        );
     }
 
-    protected OutboundSMSMessageRequest createOutboundSMSMessageRequest(String message, String[] receiverNumbers) {
+    protected OutboundSMSMessageRequest createOutboundSMSMessageRequest(String message, String receiverNumber) {
         OutboundSMSMessageRequest smsMessageRequest = new OutboundSMSMessageRequest();
-        smsMessageRequest.setSenderAddress(String.join(DELIMITER, NUMBER_PREFIX, senderNumber));
-        smsMessageRequest.setAddress(prefixAndAddReceiverNumbersToList(receiverNumbers));
+        smsMessageRequest.setSenderAddress(senderNumber);
+        smsMessageRequest.setAddress(receiverNumber);
         smsMessageRequest.setOutboundSMSTextMessage(new OutboundSMSTextMessage(message));
         smsMessageRequest.setSenderName(senderName);
         smsMessageRequest.setClientCorrelator(clientCorrelator);
@@ -109,6 +126,6 @@ public class SwisscomSmsSender {
     }
 
     protected URI createRequestUri() {
-        return URI.create(String.join(DELIMITER, API_URI_PREFIX, senderNumber.substring(1), API_URI_SUFFIX));
+        return URI.create(API_URI);
     }
 }

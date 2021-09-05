@@ -19,7 +19,7 @@ To use the API with this client you have to register at the [Swisscom developer 
     <dependency>
         <groupId>be.rufer.swisscom.sms</groupId>
         <artifactId>api-client</artifactId>
-        <version>1.0</version>
+        <version>2.0</version>
     </dependency>
 
 
@@ -39,8 +39,6 @@ public class SmsSenderExample
       // SENDER_NUMBER and RECEIVER_NUMBER1 in the following format: +41791234567
       SwisscomSmsSender smsSender = new SwisscomSmsSender("API_KEY", "SENDER_NUMBER");
       CommunicationWrapper response = smsSender.sendSms("MESSAGE", "RECEIVER_NUMBER1");
-      // Sending a SMS to several receivers
-      CommunicationWrapper response2 = smsSender.sendSms("MESSAGE", "RECEIVER_NUMBER1", "RECEIVER_NUMBER2");
     }
 }
 ```

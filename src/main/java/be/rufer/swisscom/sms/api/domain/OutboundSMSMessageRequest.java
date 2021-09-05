@@ -15,7 +15,12 @@
  */
 package be.rufer.swisscom.sms.api.domain;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * The sms message request object, which holds all necessary information to send a sms.
@@ -25,7 +30,7 @@ import java.util.List;
  */
 public class OutboundSMSMessageRequest {
 
-    private List<String> address;
+    private String address;
 
     private String senderAddress;
 
@@ -40,11 +45,11 @@ public class OutboundSMSMessageRequest {
     public OutboundSMSMessageRequest() {
     }
 
-    public List<String> getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(List<String> address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -87,4 +92,21 @@ public class OutboundSMSMessageRequest {
     public void setDeliveryInfoList(DeliveryInfoList deliveryInfoList) {
         this.deliveryInfoList = deliveryInfoList;
     }
+
+    public String toJson() {
+        String json = "";
+        Map<String, String> jsonBody = new HashMap();
+        jsonBody.put("to", this.getAddress());
+        jsonBody.put("text", this.getOutboundSMSTextMessage().getMessage()); 
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            json = objectMapper.writeValueAsString(jsonBody);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
 }
+
+// vim: set shiftwidth=4 softtabstop=4 expandtab :
+

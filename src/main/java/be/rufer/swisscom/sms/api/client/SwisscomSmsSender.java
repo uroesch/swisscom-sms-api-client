@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * For every api-key an instance of this class can be created. The swisscom sms sender provides
@@ -42,15 +43,12 @@ import java.util.HashMap;
 public class SwisscomSmsSender {
 
     private static final String API_URI = "https://api.swisscom.com/messaging/sms";
-    private static final String DELIMITER = "";
-    private static final String NUMBER_PREFIX = "";
-
 
     private String apiKey;
     private String senderNumber;
     private String senderName;
     private String clientCorrelator;
-    private String requestId;
+    private String requestId; 
     private ValidationChain validationChain = ValidationChain.builder().add(new PhoneNumberRegexpValidationStrategy()).build();
     protected RestTemplate restTemplate;
 
@@ -65,6 +63,7 @@ public class SwisscomSmsSender {
         this.apiKey = apiKey;
         this.senderNumber = senderNumber;
         this.restTemplate = new RestTemplate();
+        this.requestId= UUID.randomUUID().toString();
     }
 
     /**
@@ -75,14 +74,14 @@ public class SwisscomSmsSender {
      * @param senderName [ONLY IN PARTNER MODE] Name of the sender, which should be displayed on the receivers phone
      * @param clientCorrelator An id that can be found in the logs of Swisscom
      */
-    public SwisscomSmsSender(String apiKey, String senderNumber, String senderName, String clientCorrelator) {
+    public SwisscomSmsSender(String apiKey, String senderNumber,  String senderName, String clientCorrelator) {
         validationChain.executeValidation(senderNumber);
         this.apiKey = apiKey;
         this.senderNumber = senderNumber;
         this.senderName = senderName;
         this.clientCorrelator = clientCorrelator;
         this.restTemplate = new RestTemplate();
-        this.requestId = UUID.randomUUID().toString();
+        this.requestId= UUID.randomUUID().toString();
     }
 
     /**
@@ -97,7 +96,7 @@ public class SwisscomSmsSender {
         CommunicationWrapper communicationWrapper = new CommunicationWrapper();
         communicationWrapper.setOutboundSMSMessageRequest(createOutboundSMSMessageRequest(message, receiverNumber));
         return restTemplate.postForObject(
-            createRequestUri(),
+            URI.create(API_URI),
             new HttpEntity(
                 communicationWrapper.getOutboundSMSMessageRequest().toJson(),
                 HeaderFactory.createHeaders(apiKey, requestId)
@@ -115,17 +114,5 @@ public class SwisscomSmsSender {
         smsMessageRequest.setSenderName(senderName);
         smsMessageRequest.setClientCorrelator(clientCorrelator);
         return smsMessageRequest;
-    }
-
-    protected List<String> prefixAndAddReceiverNumbersToList(String[] receiverNumbers) {
-        List<String> receivers = new LinkedList<>();
-        for (String receiverNumber : receiverNumbers) {
-            receivers.add(String.join(DELIMITER, NUMBER_PREFIX, receiverNumber));
-        }
-        return receivers;
-    }
-
-    protected URI createRequestUri() {
-        return URI.create(API_URI);
     }
 }

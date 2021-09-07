@@ -98,6 +98,9 @@ public class OutboundSMSMessageRequest {
         Map<String, String> jsonBody = new HashMap();
         jsonBody.put("to", this.getAddress());
         jsonBody.put("text", this.getOutboundSMSTextMessage().getMessage()); 
+        if (this.getSenderName() != null && this.getSenderName() != "")  
+            jsonBody.put("from", this.getSenderName());
+
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             json = objectMapper.writeValueAsString(jsonBody);

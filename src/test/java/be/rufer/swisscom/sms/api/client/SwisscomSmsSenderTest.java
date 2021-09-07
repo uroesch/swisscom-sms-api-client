@@ -49,20 +49,28 @@ public class SwisscomSmsSenderTest {
     private final String RECEIVER_NUMBER = "+41791234568";
     private final String INVALID_RECEIVER_NUMBER = "41791234568";
     private final String CLIENT_CORRELATOR = "client-correlator";
+    private final String EXPECTED_SENDER_NAME= "Muster";
     private final String EXPECTED_SENDER_NUMBER = "+41791234567";
     private final String EXPECTED_RECEIVER_NUMBER = "+41791234568";
     private final String SUCCESSFUL_DELIVERY_STATUS = "DeliveredToNetwork";
-    private final String EXPECTED_REQUEST_URI_AS_STRING = "https://api.swisscom.com/messaging/sms";
+    private final String MINIMAL_JSON_PAYLOAD = String.format("{\"to\":\"%s\",\"text\":\"%s\"}", RECEIVER_NUMBER, SAMPLE_MESSAGE);
+    private final String PARTNER_JSON_PAYLOAD = String.format("{\"from\":\"%s\",\"to\":\"%s\",\"text\":\"%s\"}", SENDER_NAME, RECEIVER_NUMBER, SAMPLE_MESSAGE);
 
     private SwisscomSmsSender swisscomSmsSender;
+    private SwisscomSmsSender swisscomSmsSenderPartner;
+    private CommunicationWrapper communicationWrapper; 
+ 
 
     @Mock
     private RestTemplate restTemplate;
 
     @Before
     public void init() {
+        communicationWrapper = new CommunicationWrapper();
         swisscomSmsSender = new SwisscomSmsSender(API_KEY, SENDER_NUMBER);
+        // swisscomSmsSenderPartner = new SwisscomSmsSender(API_KEY, SENDER_NUMBER, SENDER_NAME);
         swisscomSmsSender.restTemplate = restTemplate;
+        // swisscomSmsSenderPartner.restTemplate = restTemplate;
     }
 
     @Test
@@ -92,40 +100,39 @@ public class SwisscomSmsSenderTest {
     }
 
     @Test
-    public void createRequestUriReturnsURIContainingSenderNumber() {
-        assertEquals(URI.create(EXPECTED_REQUEST_URI_AS_STRING), swisscomSmsSender.createRequestUri());
-    }
-
-    @Test
     public void createOutboundSMSMessageRequestReturnsRequestObjectWithFilledOutRequiredFields() {
         OutboundSMSMessageRequest outboundSMSMessageRequest = swisscomSmsSender.createOutboundSMSMessageRequest(SAMPLE_MESSAGE, RECEIVER_NUMBER);
-	/*
-        assertEquals(EXPECTED_RECEIVER_NUMBER, outboundSMSMessageRequest.getAddress().get(0));
+        assertEquals(EXPECTED_RECEIVER_NUMBER, outboundSMSMessageRequest.getAddress());
         assertEquals(EXPECTED_SENDER_NUMBER, outboundSMSMessageRequest.getSenderAddress());
         assertEquals(SAMPLE_MESSAGE, outboundSMSMessageRequest.getOutboundSMSTextMessage().getMessage());
+        assertEquals(MINIMAL_JSON_PAYLOAD, outboundSMSMessageRequest.toJson());
+        System.err.println(outboundSMSMessageRequest.toJson());
         assertEquals(null, outboundSMSMessageRequest.getSenderName());
         assertEquals(null, outboundSMSMessageRequest.getClientCorrelator());
-	*/
     }
+
+    /*
+    @Test
+    public void createOutboundSMSMessageRequestInPartnerModeReturnsRequestObjectWithFilledOutRequiredFields() {
+        OutboundSMSMessageRequest outboundSMSMessageRequest = swisscomSmsSenderPartner.createOutboundSMSMessageRequest(SAMPLE_MESSAGE, RECEIVER_NUMBER);
+        assertEquals(EXPECTED_RECEIVER_NUMBER, outboundSMSMessageRequest.getAddress());
+        assertEquals(EXPECTED_SENDER_NUMBER, outboundSMSMessageRequest.getSenderAddress());
+        assertEquals(EXPECTED_SENDER_NAME, outboundSMSMessageRequest.getSenderName());
+        assertEquals(SAMPLE_MESSAGE, outboundSMSMessageRequest.getOutboundSMSTextMessage().getMessage());
+        assertEquals(PARTNER_JSON_PAYLOAD, outboundSMSMessageRequest.toJson());
+        System.err.println(outboundSMSMessageRequest.toJson());
+        assertEquals(null, outboundSMSMessageRequest.getSenderName());
+        assertEquals(null, outboundSMSMessageRequest.getClientCorrelator());
+    }
+    */
 
     @Test
     public void createOutboundSMSMessageRequestReturnsFullyFilledRequestObject() {
         swisscomSmsSender = new SwisscomSmsSender(API_KEY, SENDER_NUMBER, SENDER_NAME, CLIENT_CORRELATOR);
         swisscomSmsSender.restTemplate = restTemplate;
         OutboundSMSMessageRequest outboundSMSMessageRequest = swisscomSmsSender.createOutboundSMSMessageRequest(SAMPLE_MESSAGE, RECEIVER_NUMBER);
-	
-	/*
         assertEquals(SENDER_NAME, outboundSMSMessageRequest.getSenderName());
         assertEquals(CLIENT_CORRELATOR, outboundSMSMessageRequest.getClientCorrelator());
-	*/
-    }
-
-    @Test
-    public void prefixAndAddReceiverNumbersToListReturnsListContainingNumbers() {
-        String[] receiverArray = {RECEIVER_NUMBER};
-        List<String> receivers = swisscomSmsSender.prefixAndAddReceiverNumbersToList(receiverArray);
-        String[] expectedResult = {EXPECTED_RECEIVER_NUMBER};
-        assertArrayEquals(expectedResult, receivers.toArray());
     }
 
     @Test(expected = PhoneNumberRegexpValidationException.class)
@@ -143,3 +150,5 @@ public class SwisscomSmsSenderTest {
         swisscomSmsSender.sendSms(SAMPLE_MESSAGE, INVALID_RECEIVER_NUMBER);
     }
 }
+
+// vim: set shiftwidth=4 softtabstop=4 expandtab :

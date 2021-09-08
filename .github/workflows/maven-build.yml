@@ -9,10 +9,12 @@ on:
   push:
     branches:
       - workflow/*
+      - feature/*
   pull_request:
     branches:
       - main
       - master 
+  workflow_dispatch:
 
 jobs:
   maven-build:
@@ -30,13 +32,26 @@ jobs:
           # - '10'
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           java-version: ${{ matrix.jdk }}
           distribution: 'adopt'
+
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
+
+      - name: Send test SMS
+        shell: bash
+        run: |2+
+          jar=$(find sms-sender/target -name "be.*.jar")
+          echo ${jar}
+          java -jar "${jar}" \
+            -k "${{ secrets.SWISSCOM_API_CLIENT_ID }}" \
+            -n "${{ secrets.SWISSCOM_API_RECEIVER_NUMBER }}" \
+            -m "${GITHUB_WORKFLOW} - ${GITHUB_RUN_ID}"
 
 # vim: set shiftwidth=2 softtabstop=2 expandtab :

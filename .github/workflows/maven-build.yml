@@ -47,8 +47,9 @@ jobs:
       - name: Send test SMS
         shell: bash
         run: |2+
+          [[ -z ${{ secrets.SWISSCOM_API_CLIENT_ID }} ]] && exit 0
+          [[ -z ${{ secrets.SWISSCOM_API_RECEIVER_NUMBER }} ]] && exit 0
           jar=$(find sms-sender/target -name "be.*.jar")
-          echo ${jar}
           java -jar "${jar}" \
             -k "${{ secrets.SWISSCOM_API_CLIENT_ID }}" \
             -n "${{ secrets.SWISSCOM_API_RECEIVER_NUMBER }}" \

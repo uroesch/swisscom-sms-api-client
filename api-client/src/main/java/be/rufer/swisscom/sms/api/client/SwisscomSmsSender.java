@@ -75,11 +75,11 @@ public class SwisscomSmsSender {
      * @param clientCorrelator An id that can be found in the logs of Swisscom
      */
     public SwisscomSmsSender(String apiKey, String senderNumber,  String senderName, String clientCorrelator) {
-        validationChain.executeValidation(senderNumber);
+        validationChain.executeValidation(senderNumber); 
         this.apiKey = apiKey;
         this.senderNumber = senderNumber;
-        this.senderName = senderName;
-        this.clientCorrelator = clientCorrelator;
+        this.senderName = senderName.toString();
+        this.clientCorrelator = clientCorrelator.toString();
         this.restTemplate = new RestTemplate();
         this.requestId= UUID.randomUUID().toString();
     }
@@ -92,7 +92,8 @@ public class SwisscomSmsSender {
      * @return communication wrapper object containing delivery information
      */
     public CommunicationWrapper sendSms(String message, String receiverNumber) {
-        validationChain.executeValidation(receiverNumber);
+        // not required
+        // validationChain.executeValidation(receiverNumber);
         CommunicationWrapper communicationWrapper = new CommunicationWrapper();
         communicationWrapper.setOutboundSMSMessageRequest(createOutboundSMSMessageRequest(message, receiverNumber));
         return restTemplate.postForObject(

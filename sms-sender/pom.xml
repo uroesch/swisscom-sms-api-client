@@ -6,9 +6,9 @@
   <groupId>be.rufer.swisscom.sms</groupId>
   <artifactId>sms-sender</artifactId>
   <packaging>jar</packaging>
-  <version>1.9.0</version>
+  <version>0.1.0</version>
 
-  <name>Swisscom SMS-API-Client</name>
+  <name>Swisscom SMS-Sender</name>
   <description>A Java library for easy use of the Swisscom SMS API in Java</description>
   <url>https://github.com/rufer7/swisscom-sms-api-client</url>
   <inceptionYear>2015</inceptionYear>

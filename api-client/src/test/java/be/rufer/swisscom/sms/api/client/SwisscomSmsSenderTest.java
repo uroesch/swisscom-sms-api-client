@@ -145,10 +145,12 @@ public class SwisscomSmsSenderTest {
         new SwisscomSmsSender(API_KEY, INVALID_SENDER_NUMBER, SENDER_NAME, CLIENT_CORRELATOR);
     }
 
+    /*
     @Test(expected = PhoneNumberRegexpValidationException.class)
     public void sendSmsWithInvalidReceiverNumberThrowsValidationException() {
         swisscomSmsSender.sendSms(SAMPLE_MESSAGE, INVALID_RECEIVER_NUMBER);
     }
+    */
 }
 
 // vim: set shiftwidth=4 softtabstop=4 expandtab :

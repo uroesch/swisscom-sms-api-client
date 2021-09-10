@@ -1,0 +1,47 @@
+# -----------------------------------------------------------------------------
+# Build workflow for maven java project
+# Author: Urs Roesch https://github.com/uroesch
+# Version: 0.1.0
+# -----------------------------------------------------------------------------
+name: maven-build
+
+on:
+  push:
+    branches:
+      - workflow/*
+      - feature/*
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  maven-build:
+    timeout-minutes: 15
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+        jdk:
+          - '8'
+          # - '9'
+          # - '10'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.jdk }}
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots verify
+
+# vim: set shiftwidth=2 softtabstop=2 expandtab :

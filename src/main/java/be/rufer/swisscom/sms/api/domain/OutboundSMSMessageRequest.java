@@ -15,7 +15,12 @@
  */
 package be.rufer.swisscom.sms.api.domain;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * The sms message request object, which holds all necessary information to send a sms.
@@ -25,26 +30,28 @@ import java.util.List;
  */
 public class OutboundSMSMessageRequest {
 
-    private List<String> address;
+    private String address;
 
-    private String senderAddress;
-
-    private OutboundSMSTextMessage outboundSMSTextMessage;
-
-    private String clientCorrelator;
+    private String requestId;
 
     private String senderName;
 
+    private String callbackUrl;
+
+    private String senderAddress;
+
     private DeliveryInfoList deliveryInfoList;
+
+    private OutboundSMSTextMessage outboundSMSTextMessage;
 
     public OutboundSMSMessageRequest() {
     }
 
-    public List<String> getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(List<String> address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -64,12 +71,12 @@ public class OutboundSMSMessageRequest {
         this.outboundSMSTextMessage = outboundSMSTextMessage;
     }
 
-    public String getClientCorrelator() {
-        return clientCorrelator;
+    public String getCallbackUrl() {
+        return callbackUrl;
     }
 
-    public void setClientCorrelator(String clientCorrelator) {
-        this.clientCorrelator = clientCorrelator;
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
     }
 
     public String getSenderName() {
@@ -80,6 +87,14 @@ public class OutboundSMSMessageRequest {
         this.senderName = senderName;
     }
 
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
     public DeliveryInfoList getDeliveryInfoList() {
         return deliveryInfoList;
     }
@@ -87,4 +102,26 @@ public class OutboundSMSMessageRequest {
     public void setDeliveryInfoList(DeliveryInfoList deliveryInfoList) {
         this.deliveryInfoList = deliveryInfoList;
     }
+
+    public String toJson() {
+        String json = "";
+        Map<String, String> jsonBody = new HashMap();
+        jsonBody.put("to", this.getAddress());
+        jsonBody.put("text", this.getOutboundSMSTextMessage().getMessage());
+        if (this.getSenderName() != null && this.getSenderName() != "")
+            jsonBody.put("from", this.getSenderName());
+
+        if (this.getCallbackUrl() != null && this.getCallbackUrl() != "")
+            jsonBody.put("callbackUrl", this.getCallbackUrl());
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            json = objectMapper.writeValueAsString(jsonBody);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
 }
+
+// vim: set shiftwidth=4 softtabstop=4 expandtab :

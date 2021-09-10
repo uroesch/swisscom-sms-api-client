@@ -23,18 +23,23 @@ import org.springframework.http.MediaType;
  */
 public class HeaderFactory {
 
-    private static final String CLIENT_ID = "client_id";
+    private static final String CLIENT_ID      = "client_id";
+    private static final String SCS_REQUEST_ID = "SCS-Request-ID";
+    private static final String SCS_VERSION    = "SCS-Version";
 
     /**
      * Creates http headers object based, which contains given api-key
      * @param apiKey the api-key to enrich the headers with
+     * @param requestId unique string represnting the message identifier
      * @return the created headers containing the api-key
      */
-    public static HttpHeaders createHeaders(String apiKey) {
+    public static HttpHeaders createHeaders(String apiKey, String requestId) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         headers.set(CLIENT_ID, apiKey);
+        headers.set(SCS_REQUEST_ID, requestId);
+        headers.set(SCS_VERSION, "2");
         return headers;
     }
 }

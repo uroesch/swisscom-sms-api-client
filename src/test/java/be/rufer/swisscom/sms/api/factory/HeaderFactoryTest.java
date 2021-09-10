@@ -22,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -30,6 +31,10 @@ public class HeaderFactoryTest {
 
     private static final String API_KEY = "12345";
     private static final String CLIENT_ID = "client_id";
+    private static final String SCS_VERSION = "SCS-Version";
+    private static final String API_VERSION = "2";
+    private static final String SCS_REQUEST_ID = "SCS-Request-ID";
+    private static final String REQUEST_ID = UUID.randomUUID().toString();
 
     @Before
     public void init() {
@@ -37,26 +42,39 @@ public class HeaderFactoryTest {
     }
 
     @Test
+    public void createHeadersReturnsHeadersWithRequestId() {
+        HttpHeaders headers = HeaderFactory.createHeaders(API_KEY, REQUEST_ID);
+        assertEquals(REQUEST_ID, headers.get(SCS_REQUEST_ID).get(0));
+    }
+
+    @Test
     public void createHeadersReturnsHeadersWithAPIKey() {
-        HttpHeaders headers = HeaderFactory.createHeaders(API_KEY);
+        HttpHeaders headers = HeaderFactory.createHeaders(API_KEY, REQUEST_ID);
         assertEquals(API_KEY, headers.get(CLIENT_ID).get(0));
     }
 
     @Test
     public void createHeadersReturnsHeadersWithContentTypeApplicationJson() {
-        HttpHeaders headers = HeaderFactory.createHeaders(API_KEY);
+        HttpHeaders headers = HeaderFactory.createHeaders(API_KEY, REQUEST_ID);
         assertEquals(MediaType.APPLICATION_JSON, headers.getContentType());
     }
 
     @Test
     public void createHeadersReturnsHeadersWithAcceptApplicationJson() {
-        HttpHeaders headers = HeaderFactory.createHeaders(API_KEY);
+        HttpHeaders headers = HeaderFactory.createHeaders(API_KEY, REQUEST_ID);
         assertArrayEquals(Arrays.asList(MediaType.APPLICATION_JSON).toArray(), headers.getAccept().toArray());
     }
 
     @Test
-    public void createHeadersWithNullValueReturnsHeadersWithNullApiKey() {
-        HttpHeaders headers = HeaderFactory.createHeaders(null);
+    public void createHeadersWithNullValueReturnsHeadersWithScsVersion() {
+        HttpHeaders headers = HeaderFactory.createHeaders(API_KEY, REQUEST_ID);
+        assertEquals(API_VERSION, headers.get(SCS_VERSION).get(0));
+    }
+
+    @Test
+    public void createHeadersWithNullValueReturnsHeadersWithNullApiKeyAndNullRequestId() {
+        HttpHeaders headers = HeaderFactory.createHeaders(null, null);
         assertEquals(null, headers.get(CLIENT_ID).get(0));
+        assertEquals(null, headers.get(SCS_REQUEST_ID).get(0));
     }
 }

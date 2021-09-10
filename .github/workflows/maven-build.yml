@@ -53,6 +53,6 @@ jobs:
           java -jar "${jar}" \
             -k "${{ secrets.SWISSCOM_API_CLIENT_ID }}" \
             -n "${{ secrets.SWISSCOM_API_RECEIVER_NUMBER }}" \
-            -m "${GITHUB_WORKFLOW} - ${GITHUB_RUN_ID}"
+            -m "${{ matrix.os }} -> ${GITHUB_WORKFLOW} -> ${GITHUB_RUN_ID}"
 
 # vim: set shiftwidth=2 softtabstop=2 expandtab :

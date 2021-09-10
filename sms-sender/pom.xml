@@ -6,17 +6,17 @@
   <groupId>be.rufer.swisscom.sms</groupId>
   <artifactId>sms-sender</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
 
   <name>Swisscom SMS-Sender</name>
-  <description>A Java library for easy use of the Swisscom SMS API in Java</description>
+  <description>A simple java program to send SMS via the Swisscom SMS API</description>
   <url>https://github.com/rufer7/swisscom-sms-api-client</url>
-  <inceptionYear>2015</inceptionYear>
+  <inceptionYear>2021</inceptionYear>
 
   <parent>
     <groupId>be.rufer.swisscom.sms</groupId>
     <artifactId>swisscom-sms</artifactId>
-    <version>1.9.0</version>
+    <version>1.9.1</version>
   </parent>
 
   <licenses>
@@ -29,9 +29,9 @@
 
   <developers>
     <developer>
-      <name>Marc Rufer</name>
-      <email>m.rufer at gmx.ch</email>
-      <organizationUrl>https://github.com/rufer7</organizationUrl>
+      <name>Urs Roesch</name>
+      <email>roesch at puzzle.ch</email>
+      <organizationUrl>https://github.com/uroesch</organizationUrl>
     </developer>
   </developers>
 
@@ -54,7 +54,7 @@
     <dependency>
       <groupId>be.rufer.swisscom.sms</groupId>
       <artifactId>api-client</artifactId>
-      <version>1.9.0</version>
+      <version>1.9.1</version>
     </dependency>
     <dependency>
       <groupId>gnu.getopt</groupId>

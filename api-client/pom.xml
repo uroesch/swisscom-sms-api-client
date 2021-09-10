@@ -6,7 +6,7 @@
     <groupId>be.rufer.swisscom.sms</groupId>
     <artifactId>api-client</artifactId>
     <packaging>jar</packaging>
-    <version>1.9.0</version>
+    <version>1.9.1</version>
 
     <name>Swisscom SMS-API-Client</name>
     <description>A Java library for easy use of the Swisscom SMS API in Java</description>
@@ -16,7 +16,7 @@
     <parent>
         <groupId>be.rufer.swisscom.sms</groupId>
         <artifactId>swisscom-sms</artifactId>
-        <version>1.9.0</version>
+        <version>1.9.1</version>
     </parent>
 
     <licenses>
@@ -28,6 +28,11 @@
     </licenses>
 
     <developers>
+        <developer>
+            <name>Urs Roesch</name>
+            <email>roesch at puzzle.ch</email>
+            <organizationUrl>https://github.com/uroesch</organizationUrl>
+        </developer>
         <developer>
             <name>Marc Rufer</name>
             <email>m.rufer at gmx.ch</email>

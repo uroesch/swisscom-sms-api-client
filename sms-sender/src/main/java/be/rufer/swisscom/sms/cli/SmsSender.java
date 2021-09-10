@@ -27,6 +27,8 @@ public class SmsSender {
 
     private static String apiKey;
     private static String receiverNumber;
+    private static String senderName   = null;
+    private static String callbackUrl  = null;
     private static String senderNumber = "+41791234567";
     private static String message;
 
@@ -37,29 +39,40 @@ public class SmsSender {
      * @param senderNumber the number of the sender (i.e. +41791234567)
      */
     public static void main(String[] args) {
-		OptionsParser(args);
-	    SwisscomSmsSender smsSender = new SwisscomSmsSender(apiKey, senderNumber);
-        smsSender.sendSms(message, receiverNumber);	
+        OptionsParser(args);
+        SwisscomSmsSender smsSender = new SwisscomSmsSender(apiKey, senderNumber, senderName, callbackUrl);
+        smsSender.sendSms(message, receiverNumber);
     }
 
     private static void OptionsParser(String[] args) {
-		Getopt opt = new Getopt("testprog", args, "k:n:m:");
- 		int c;
-		while ((c = opt.getopt()) != -1) {
-		    switch(c) {
-        	case 'k':
-           		apiKey = opt.getOptarg();
-	            break;
-			case 'n':
-           		receiverNumber = opt.getOptarg();
-				break;
-          	case 'm':
-           		message = opt.getOptarg();
-           		break;
-	        default:
-    	        System.out.print("getopt() returned " + (char)c + "\n");
-    	        System.exit(1);
-    	    }
-   	    }
-    }        
+        Getopt opt = new Getopt("testprog", args, "k:n:m:N:U:S:");
+        int c;
+        while ((c = opt.getopt()) != -1) {
+            switch(c) {
+            case 'k':
+                apiKey = opt.getOptarg();
+                break;
+            case 'n':
+                receiverNumber = opt.getOptarg();
+                break;
+            case 'm':
+                message = opt.getOptarg();
+                break;
+            case 'N':
+                senderName = opt.getOptarg();
+                break;
+            case 'U':
+                callbackUrl = opt.getOptarg();
+                break;
+            case 'S':
+                senderNumber = opt.getOptarg();
+                break;
+            default:
+                System.out.print("getopt() returned " + (char)c + "\n");
+                System.exit(1);
+            }
+        }
+    }
 }
+
+// vim: set shiftwidth=4 softtabstop=4 expandtab :

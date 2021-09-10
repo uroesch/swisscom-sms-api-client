@@ -1,56 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>be.rufer.swisscom.sms</groupId>
-    <artifactId>swisscom-sms</artifactId>
-    <packaging>pom</packaging>
-    <version>1.9.0</version>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>be.rufer.swisscom.sms</groupId>
+  <artifactId>swisscom-sms</artifactId>
+  <packaging>pom</packaging>
+  <version>1.9.1</version>
 
-    <name>Swisscom SMS-API-Client</name>
-    <description>A Java library for easy use of the Swisscom SMS API in Java</description>
+  <name>Swisscom SMS-API-Client</name>
+  <description>A Java library for easy use of the Swisscom SMS API in Java</description>
+  <url>https://github.com/rufer7/swisscom-sms-api-client</url>
+  <inceptionYear>2015</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Marc Rufer</name>
+      <email>m.rufer at gmx.ch</email>
+      <organizationUrl>https://github.com/rufer7</organizationUrl>
+    </developer>
+  </developers>
+
+  <properties>
+    <!-- use UTF-8 for everything -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <maven-shade.version>3.2.4</maven-shade.version>
+    <swisscom-sms-api.version>1.9.1</swisscom-sms-api.version>
+  </properties>
+
+  <scm>
+    <connection>scm:git:https://github.com/rufer7/swisscom-sms-api-client</connection>
+    <developerConnection>scm:git:https://github.com/rufer7/swisscom-sms-api-client</developerConnection>
     <url>https://github.com/rufer7/swisscom-sms-api-client</url>
-    <inceptionYear>2015</inceptionYear>
+    <tag>HEAD</tag>
+  </scm>
 
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+  <modules>
+    <module>api-client</module>
+    <module>sms-sender</module>
+  </modules>
 
-    <developers>
-        <developer>
-            <name>Marc Rufer</name>
-            <email>m.rufer at gmx.ch</email>
-            <organizationUrl>https://github.com/rufer7</organizationUrl>
-        </developer>
-    </developers>
-
-    <scm>
-        <connection>scm:git:https://github.com/rufer7/swisscom-sms-api-client</connection>
-        <developerConnection>scm:git:https://github.com/rufer7/swisscom-sms-api-client</developerConnection>
-        <url>https://github.com/rufer7/swisscom-sms-api-client</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <modules>
-        <module>api-client</module>
-        <module>sms-sender</module>
-    </modules>
-
-    <build>
-        <resources>
-            <resource>
-                 <directory>${project.basedir}</directory>
-                 <includes>
-                     <include>**/*</include>
-                 </includes>
-            </resource>
-        </resources>
-    </build>
+  <build>
+    <resources>
+      <resource>
+        <directory>${project.basedir}</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
 
 </project>
-<!-- vim: set shiftwidth=4 softtabstop=4 expandtab : -->
+<!-- vim: set shiftwidth=2 softtabstop=2 expandtab : -->
+
+
+

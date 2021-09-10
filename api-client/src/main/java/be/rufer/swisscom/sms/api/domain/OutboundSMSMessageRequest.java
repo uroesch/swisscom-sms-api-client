@@ -32,15 +32,17 @@ public class OutboundSMSMessageRequest {
 
     private String address;
 
-    private String senderAddress;
-
-    private OutboundSMSTextMessage outboundSMSTextMessage;
-
-    private String clientCorrelator;
+    private String requestId;
 
     private String senderName;
 
+    private String callbackUrl;
+
+    private String senderAddress;
+
     private DeliveryInfoList deliveryInfoList;
+
+    private OutboundSMSTextMessage outboundSMSTextMessage;
 
     public OutboundSMSMessageRequest() {
     }
@@ -69,12 +71,12 @@ public class OutboundSMSMessageRequest {
         this.outboundSMSTextMessage = outboundSMSTextMessage;
     }
 
-    public String getClientCorrelator() {
-        return clientCorrelator;
+    public String getCallbackUrl() {
+        return callbackUrl;
     }
 
-    public void setClientCorrelator(String clientCorrelator) {
-        this.clientCorrelator = clientCorrelator;
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
     }
 
     public String getSenderName() {
@@ -83,6 +85,14 @@ public class OutboundSMSMessageRequest {
 
     public void setSenderName(String senderName) {
         this.senderName = senderName;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 
     public DeliveryInfoList getDeliveryInfoList() {
@@ -100,6 +110,9 @@ public class OutboundSMSMessageRequest {
         jsonBody.put("text", this.getOutboundSMSTextMessage().getMessage()); 
         if (this.getSenderName() != null && this.getSenderName() != "")  
             jsonBody.put("from", this.getSenderName());
+
+        if (this.getCallbackUrl() != null && this.getCallbackUrl() != "")  
+            jsonBody.put("callbackUrl", this.getCallbackUrl());
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();

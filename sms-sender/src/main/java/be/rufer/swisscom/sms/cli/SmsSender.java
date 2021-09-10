@@ -67,11 +67,29 @@ public class SmsSender {
             case 'S':
                 senderNumber = opt.getOptarg();
                 break;
+            case 'h':
+                Usage(0);
+                break;
             default:
-                System.out.print("getopt() returned " + (char)c + "\n");
-                System.exit(1);
+                Usage(1);
             }
         }
+    }
+    private static void Usage(int exitCode) {
+        String usage = "\n"
+            + "Usage:\n" 
+            + "  java -jar <jar> <options>\n"
+            + "\n" 
+            + "Options:\n" 
+            + "  -h   This message\n" 
+            + "  -k   Swisscom API Key (required)\n" 
+            + "  -n   Receiver Number e.g. +41XXXXXXXXX (required)\n" 
+            + "  -m   Message text (required)\n" 
+            + "  -N   Sender name (optional); requires partner agreement\n" 
+            + "  -U   Callback URL (optional)\n" 
+            + "\n";
+        System.out.print(usage);        
+        System.exit(exitCode);
     }
 }
 

@@ -6,7 +6,7 @@
   <groupId>be.rufer.swisscom.sms</groupId>
   <artifactId>sms-sender</artifactId>
   <packaging>jar</packaging>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
 
   <name>Swisscom SMS-Sender</name>
   <description>A simple java program to send SMS via the Swisscom SMS API</description>

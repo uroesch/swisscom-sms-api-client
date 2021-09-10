@@ -9,7 +9,7 @@
   <groupId>be.rufer.swisscom.sms</groupId>
   <artifactId>sms-sender</artifactId>
   <name>Swisscom SMS-Sender</name>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <description>A simple java program to send SMS via the Swisscom SMS API</description>
   <url>https://github.com/rufer7/swisscom-sms-api-client</url>
   <inceptionYear>2021</inceptionYear>
